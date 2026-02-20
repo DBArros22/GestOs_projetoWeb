@@ -1,0 +1,212 @@
+:root { --primary: #8DE085; --primary-dark: #5CAD55; --bg: #F0F4F3; --card: #FFFFFF; --text: #1A1C1A; }
+* { box-sizing: border-box; font-family: 'Inter', sans-serif; -webkit-tap-highlight-color: transparent; }
+body { background: var(--bg); color: var(--text); margin: 0; }
+
+header { background: var(--primary); padding: 30px 20px 20px; border-radius: 0 0 25px 25px; position: sticky; top:0; z-index: 100; }
+.header-content { display: flex; justify-content: space-between; align-items: center; }
+.logo { font-weight: 800; font-size: 1.5rem; color: white; cursor: pointer; }
+.logo span { color: var(--text); }
+.btn-config { background: rgba(255,255,255,0.3); border:none; padding: 8px 12px; border-radius: 10px; color: white; font-weight: 600; cursor:pointer; }
+
+.finance-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 20px; }
+.fin-card { background: white; padding: 12px; border-radius: 15px; text-align: center; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
+.fin-card small { font-size: 0.6rem; color: #94A3B8; font-weight: 800; display: block; }
+.fin-card span { font-size: 1rem; font-weight: 800; color: var(--primary-dark); }
+
+.filter-bar { display: flex; justify-content: space-between; align-items: center; margin-top: 15px; }
+#filter-status { background: rgba(255,255,255,0.4); border:none; padding: 5px; border-radius: 8px; font-size: 0.8rem; outline:none; }
+#usage-status { font-size: 0.75rem; font-weight: bold; color: white; }
+
+.os-card { background: var(--card); margin: 15px 20px; padding: 18px; border-radius: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.02); }
+.status-pill { font-size: 0.6rem; padding: 3px 8px; border-radius: 5px; font-weight: 800; margin-bottom: 5px; display: inline-block; }
+.pill-concluido { background: #E0F2FE; color: #0284C7; }
+.pill-aberto { background: #FEF3C7; color: #D97706; }
+
+.hidden { display: none !important; }
+.fab-button { position: fixed; bottom: 25px; right: 25px; width: 60px; height: 60px; background: var(--primary); color: white; border: none; border-radius: 50%; font-size: 30px; box-shadow: 0 8px 20px rgba(141, 224, 133, 0.4); z-index: 99; }
+.btn-confirm { width: 100%; background: var(--primary); color: white; border: none; padding: 18px; border-radius: 15px; font-size: 1rem; font-weight: 800; cursor: pointer; margin-top: 10px; }
+.card-input { background: white; padding: 12px; border-radius: 12px; margin-bottom: 12px; }
+.card-input label { font-size: 0.7rem; color: #94A3B8; font-weight: 800; display: block; margin-bottom: 4px; }
+.card-input input, .card-input textarea { width: 100%; border:none; outline:none; font-size: 1rem; }
+
+/* --- Barra de Pesquisa Moderna --- */
+.search-container {
+    padding: 15px 20px;
+    margin-bottom: 5px;
+}
+
+#search-input {
+    width: 100%;
+    padding: 14px 18px;
+    border-radius: 15px;
+    border: 1px solid #E2E8F0;
+    background: white;
+    font-size: 1rem;
+    outline: none;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+    transition: all 0.3s ease;
+}
+
+#search-input:focus {
+    border-color: var(--primary);
+    box-shadow: 0 4px 15px rgba(141, 224, 133, 0.2);
+}
+
+/* --- Inputs do Formulário Melhores --- */
+.card-input {
+    background: white;
+    padding: 15px;
+    border-radius: 16px;
+    margin: 0 20px 15px;
+    border: 1px solid #EDF2F7;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+}
+
+.card-input label {
+    font-size: 0.75rem;
+    color: #94A3B8;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    display: block;
+    margin-bottom: 8px;
+}
+
+.card-input input, 
+.card-input textarea, 
+.card-input select {
+    width: 100%;
+    border: none;
+    outline: none;
+    font-size: 1rem;
+    color: var(--text);
+    background: transparent;
+    font-weight: 500;
+}
+
+/* Ajuste específico para Textarea */
+.card-input input::placeholder, 
+.card-input textarea::placeholder {
+    color: #CBD5E0;
+    font-size: 0.9rem;
+    font-weight: 400;
+}
+
+/* --- Ajuste Geral do Header para não cobrir a busca --- */
+header {
+    background: var(--primary);
+    padding: 30px 20px 25px; /* Mais espaço interno */
+    border-radius: 0 0 30px 30px;
+    position: relative; /* Mudado de sticky para relative se houver sobreposição ruim */
+    z-index: 100;
+}
+
+/* Fundo escurecido que cobre toda a tela */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7); /* Escurece o fundo */
+    display: flex;
+    align-items: center; /* Centraliza verticalmente */
+    justify-content: center; /* Centraliza horizontalmente */
+    z-index: 9999; /* Garante que fique acima de tudo */
+    padding: 20px;
+}
+
+/* Caixa branca do aviso no centro */
+.modal-content.paywall-box {
+    background: white;
+    width: 100%;
+    max-width: 400px;
+    padding: 30px;
+    border-radius: 24px;
+    text-align: center;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+    animation: zoomIn 0.3s ease-out; /* Efeito de entrada */
+}
+
+@keyframes zoomIn {
+    from { transform: scale(0.8); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
+
+.hidden { display: none !important; }
+
+/* Botões dentro do modal */
+.paywall-box button {
+    width: 100%;
+    padding: 14px;
+    border-radius: 12px;
+    font-size: 1rem;
+    margin-top: 10px;
+    transition: 0.2s;
+}
+
+/* --- Ajuste do Cabeçalho das Telas (Form e Config) --- */
+.form-header {
+    background: var(--bg);
+    position: sticky;
+    top: 0;
+    z-index: 1001;
+}
+
+.form-header h2 {
+    margin: 0;
+    font-size: 1.2rem;
+    font-weight: 800;
+    color: var(--text);
+}
+
+/* --- Botão Voltar Estilizado --- */
+.btn-back {
+    background: white;
+    border: 1px solid #E2E8F0;
+    color: var(--text);
+    padding: 10px 16px;
+    border-radius: 12px;
+    font-size: 0.9rem;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+    transition: all 0.2s ease;
+    min-width: 90px;
+}
+
+.btn-back:active {
+    transform: scale(0.95);
+    background: #F8FAFC;
+    border-color: var(--primary);
+}
+
+
+
+/* Garante que o conteúdo das telas escondidas tenha um respiro no topo */
+#screen-form, #screen-config {
+    position: absolute; /* Força a seção a ir para o topo */
+    top: 0;
+    left: 0;
+    width: 100%;
+    min-height: 100vh;
+    background: var(--bg);
+    z-index: 1000; /* Fica acima de qualquer resquício do header */
+    padding-top: 10px;
+}
+
+@keyframes slideUp {
+    from { transform: translateY(20px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+#screen-form, #screen-config {
+    min-height: 100vh;
+    background: var(--bg);
+    padding-top: 20px;
+}
+
+.force-hidden { display: none !important; }
