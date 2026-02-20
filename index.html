@@ -15,7 +15,8 @@
             <div class="logo-group" onclick="showScreen('list')" style="cursor:pointer">
                 <div class="logo">Gest<span>OS</span></div>
                 <div id="empresa-nome-display" style="font-size: 0.65rem; color: rgba(255,255,255,0.85); font-weight: 600; margin-top: -3px; letter-spacing: 1px;"></div>
-            </div>            <button class="btn-config" onclick="showScreen('config')">⚙️ Perfil</button>
+            </div>
+            <button class="btn-config" onclick="showScreen('config')">⚙️ Perfil</button>
         </div>
 
         <div class="finance-grid">
@@ -32,14 +33,14 @@
         <div class="filter-wrapper" style="margin-top: 15px; display: flex; flex-direction: column; gap: 10px;">
             <input type="text" id="search-input" placeholder="🔍 Buscar por nome ou nº..." oninput="renderList()" 
                    style="width: 100%; padding: 12px; border-radius: 12px; border: none; outline: none; font-size: 1rem;">
-            
+
             <div style="display: flex; gap: 8px;">
                 <div style="flex: 1.2; display: flex; align-items: center; background: white; border-radius: 12px; padding: 0 10px; height: 45px;">
                     <span style="font-size: 1rem; margin-right: 5px;">📅</span>
                     <input type="date" id="filter-date" onchange="renderList()" 
                            style="border: none; outline: none; font-family: inherit; font-size: 0.85rem; width: 100%; color: #1e293b; background: transparent;">
                 </div>
-                
+
                 <select id="filter-status" onchange="renderList()" 
                         style="flex: 1; padding: 0 10px; border-radius: 12px; border: none; background: white; font-size: 0.85rem; height: 45px; outline: none;">
                     <option value="todos">📊 Todos Status</option>
@@ -59,7 +60,13 @@
             <div id="os-list" class="list-container"></div>
             <button class="fab-button" onclick="checkLimitAndOpen()">+</button>
         </section>
-                </div>
+
+        <section id="screen-form" class="hidden">
+            <div class="form-header">
+                <button class="btn-back" onclick="showScreen('list')">← Voltar</button>
+                <h2 id="form-title">Nova OS</h2>
+            </div>
+            <form id="os-form" style="padding: 20px 0;">
                 <div class="card-input"><label>Cliente</label><input type="text" id="cliente" required></div>
                 <div class="card-input"><label id="label-item">Item</label><input type="text" id="equipamento" required></div>
                 <div class="card-input"><label id="label-servico">Descrição</label><textarea id="defeito" rows="3" required></textarea></div>
@@ -101,8 +108,7 @@
 
             <div class="card-input">
                 <label>Cor do Tema</label>
-                <div id="color-palette" style="display: flex; gap: 12px; margin: 10px 0; flex-wrap: wrap;">
-                    </div>
+                <div id="color-palette" style="display: flex; gap: 12px; margin: 10px 0; flex-wrap: wrap;"></div>
                 <input type="hidden" id="cfg-cor" value="#5CAD55">
                 <span style="font-size: 0.75rem; color: #64748B; display: block; margin-top: 5px;">
                     Clique em uma cor para personalizar seu GestOS e seus PDFs.
@@ -119,26 +125,24 @@
                 <div style="font-size: 3rem; margin-bottom: 10px;">🚀</div>
                 <h2 style="color: #1E293B;">Limite Atingido!</h2>
                 <p style="color: #64748B; margin-bottom: 20px;">
-                    Você atingiu o limite de 5 OS gratuitas. Deseja assinar o <b>Plano Pro</b> por apenas <b>R$ 50,00/mês</b> para emitir ordens ilimitadas e facilitar seu trabalho?
+                    Você atingiu o limite de 5 OS gratuitas. Deseja assinar o <b>Plano Pro</b> por apenas <b>R$ 50,00/mês</b>.
                 </p>
                 <div style="display: flex; flex-direction: column; gap: 10px;">
-                    <button class="btn-confirm" onclick="showCheckout()" style="background: #5CAD55; border: none; padding: 15px; border-radius: 12px; color: white; font-weight: 800; cursor: pointer;">SIM, QUERO ASSINAR AGORA!</button>
-                    <button onclick="closePaywall()" style="background: none; border: none; color: #94A3B8; cursor: pointer; font-size: 0.8rem;">Agora não, obrigado</button>
+                    <button class="btn-confirm" onclick="showCheckout()">SIM, QUERO ASSINAR AGORA!</button>
+                    <button onclick="closePaywall()" style="background: none; border: none; color: #94A3B8; cursor: pointer;">Agora não, obrigado</button>
                 </div>
             </div>
 
             <div id="pw-checkout" class="hidden">
                 <h3 style="margin-bottom: 15px;">Escolha o Pagamento</h3>
                 <div style="display: flex; gap: 10px; margin-bottom: 20px;">
-                    <button onclick="selectMetodo('pix')" style="flex:1; padding: 10px; border-radius: 8px; border: 1px solid #E2E8F0; background: white; cursor: pointer;">PIX</button>
-                    <button onclick="selectMetodo('card')" style="flex:1; padding: 10px; border-radius: 8px; border: 1px solid #E2E8F0; background: white; cursor: pointer;">CARTÃO</button>
+                    <button onclick="selectMetodo('pix')" style="flex:1; padding: 10px; border-radius: 8px; border: 1px solid #E2E8F0; background: white;">PIX</button>
+                    <button onclick="selectMetodo('card')" style="flex:1; padding: 10px; border-radius: 8px; border: 1px solid #E2E8F0; background: white;">CARTÃO</button>
                 </div>
-
                 <div id="payment-area" style="background: #F8FAFC; padding: 15px; border-radius: 10px; min-height: 100px;">
-                    <p style="font-size: 0.85rem; color: #64748B;">Selecione um método acima para prosseguir.</p>
+                    <p style="font-size: 0.85rem; color: #64748B;">Selecione um método acima.</p>
                 </div>
-
-                <button onclick="voltarOferta()" style="margin-top: 15px; background: none; border: none; color: #64748B; cursor: pointer;">← Voltar</button>
+                <button onclick="voltarOferta()" style="margin-top: 15px; background: none; border: none; color: #64748B;">← Voltar</button>
             </div>
         </div>
     </div>
