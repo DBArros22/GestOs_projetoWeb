@@ -1,6 +1,7 @@
 // 1. Variáveis Globais
 let ordens = JSON.parse(localStorage.getItem('gestos_v4_db')) || [];
 let configEmpresa = JSON.parse(localStorage.getItem('gestos_cfg')) || { 
+
     nome: '', 
     cnpj: '', 
     logo: '', 
@@ -9,7 +10,6 @@ let configEmpresa = JSON.parse(localStorage.getItem('gestos_cfg')) || {
 const LIMITE_FREE = 5;
 
 // Cores pré-definidas para o usuário escolher com um clique
-const CORES_TEMA = ['#5CAD55', '#2563EB', '#7C3AED', '#DB2777', '#EA580C', '#1E293B', '#059669', '#DC2626'];
 
 // 2. Configuração de Nichos (Campos Dinâmicos)
 const nichoConfig = {
@@ -56,19 +56,73 @@ function showScreen(screen) {
     } 
     else if (screen === 'config') {
         configScreen.classList.remove('hidden');
-        // Mantém header e fab escondidos
-        loadConfig();
+        loadConfig(); // Carrega os dados salvos apenas ao abrir a tela
     }
 }
 
 // 4. Funções de Configuração (AJUSTADAS PARA SELEÇÃO DE COR)
 function loadConfig() {
+    // Esta função agora só será chamada AO ABRIR a tela de perfil.
+    // Ela preenche os campos com o que já está salvo no sistema.
     document.getElementById('cfg-nome').value = configEmpresa.nome || "";
     document.getElementById('cfg-cnpj').value = configEmpresa.cnpj || "";
     document.getElementById('cfg-logo').value = configEmpresa.logo || "";
     document.getElementById('cfg-nicho').value = configEmpresa.nicho || "tecnico";
-    const corSalva = configEmpresa.cor || "#5CAD55";
-    document.getElementById('cfg-cor').value = corSalva;
+
+    const corAtual = configEmpresa.cor || "#5CAD55";
+    document.getElementById('cfg-cor').value = corAtual;
+
+    renderizarPaleta(corAtual);
+}
+
+const CORES_TEMA = ['#5CAD55', '#34C759', '#007AFF', '#5856D6', '#FF9500', '#FF3B30', '#AF52DE'];
+
+function renderizarPaleta(corSelecionada) {
+    const container = document.getElementById('color-palette');
+    if (!container) return;
+
+    container.innerHTML = CORES_TEMA.map(cor => {
+        // Normaliza as cores para comparação (remove espaços e deixa minúsculo)
+        const ativa = cor.toLowerCase().trim() === corSelecionada.toLowerCase().trim();
+
+        return `
+            <div onclick="selecionarCor('${cor}')" 
+                 class="color-dot ${ativa ? 'selected' : ''}"
+                 style="
+                    width: 45px; 
+                    height: 45px; 
+                    border-radius: 14px; 
+                    background: ${cor}; 
+                    cursor: pointer; 
+                    position: relative;
+                    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+                    box-shadow: ${ativa ? '0 0 0 4px white, 0 0 20px ' + cor : '0 4px 10px rgba(0,0,0,0.1)'};
+                    transform: ${ativa ? 'scale(1.15)' : 'scale(1)'};
+                    border: ${ativa ? '2px solid white' : '2px solid transparent'};
+                 ">
+            </div>
+        `;
+    }).join('');
+}
+
+window.selecionarCor = function(cor) {
+    // 1. Atualiza o input que será salvo
+    const inputCor = document.getElementById('cfg-cor');
+    if (inputCor) inputCor.value = cor;
+
+    // 2. Redesenha a paleta com a nova cor marcada
+    renderizarPaleta(cor);
+
+    // 3. Atualiza o CSS dinâmico (Feedback instantâneo)
+    document.documentElement.style.setProperty('--primary', cor);
+
+    // 4. Aplica a cor no botão de salvar e no header do perfil
+    const btnSalvar = document.querySelector('#screen-config .btn-confirm');
+    if (btnSalvar) btnSalvar.style.backgroundColor = cor;
+
+    const headerPerfil = document.querySelector('#screen-config .form-header');
+    if (headerPerfil) headerPerfil.style.borderLeftColor = cor;
+};
 
     // Gera as bolinhas de cores para seleção simples
     const container = document.getElementById('color-palette');
@@ -81,35 +135,47 @@ function loadConfig() {
             </div>
         `).join('');
     }
-}
 
 window.selecionarCor = function(cor) {
-    // Atualiza o valor no input oculto
-    document.getElementById('cfg-cor').value = cor;
-    // Salva temporariamente no objeto para refletir na UI antes de salvar de fato
-    configEmpresa.cor = cor;
-    // Redesenha a paleta para mostrar a borda preta na cor selecionada
-    loadConfig();
+    // 1. Atualiza o input que será salvo
+    const inputCor = document.getElementById('cfg-cor');
+    if (inputCor) inputCor.value = cor;
+
+    // 2. Redesenha a paleta com a nova cor marcada
+    renderizarPaleta(cor);
+
+    // 3. Atualiza o CSS dinâmico (Feedback instantâneo)
+    document.documentElement.style.setProperty('--primary', cor);
+
+    // 4. Aplica a cor no botão de salvar e no header do perfil
+    const btnSalvar = document.querySelector('#screen-config .btn-confirm');
+    if (btnSalvar) btnSalvar.style.backgroundColor = cor;
+
+    const headerPerfil = document.querySelector('#screen-config .form-header');
+    if (headerPerfil) headerPerfil.style.borderLeftColor = cor;
 };
 
 function saveConfig() {
-    // Coleta todos os dados do formulário de perfil
+    const nome = document.getElementById('cfg-nome').value;
+    const cnpj = document.getElementById('cfg-cnpj').value;
+    const logo = document.getElementById('cfg-logo').value;
+    const nicho = document.getElementById('cfg-nicho').value;
+    const corSelecionada = document.getElementById('cfg-cor').value; // Ponto crucial
+
     configEmpresa = {
-        nome: document.getElementById('cfg-nome').value,
-        cnpj: document.getElementById('cfg-cnpj').value,
-        logo: document.getElementById('cfg-logo').value,
-        cor: document.getElementById('cfg-cor').value,
-        nicho: document.getElementById('cfg-nicho').value // Salva a profissão aqui
+        nome: nome,
+        cnpj: cnpj,
+        logo: logo,
+        nicho: nicho,
+        cor: corSelecionada
     };
 
-    // Salva permanentemente no navegador
     localStorage.setItem('gestos_cfg', JSON.stringify(configEmpresa));
 
-    // Atualiza o visual do app imediatamente
+    // Aplica o tema globalmente
     aplicarTema();
-    updateNicho(); 
 
-    alert("Configurações salvas!");
+    alert("Configurações salvas com sucesso! ✨");
     showScreen('list');
 }
 
