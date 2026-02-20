@@ -23,7 +23,61 @@ header { background: var(--primary); padding: 30px 20px 20px; border-radius: 0 0
 .pill-aberto { background: #FEF3C7; color: #D97706; }
 
 .hidden { display: none !important; }
-.fab-button { position: fixed; bottom: 25px; right: 25px; width: 60px; height: 60px; background: var(--primary); color: white; border: none; border-radius: 50%; font-size: 30px; box-shadow: 0 8px 20px rgba(141, 224, 133, 0.4); z-index: 99; }
+.fab-button {
+    width: 70px !important; /* Aumentado de 60px para 70px */
+    height: 70px !important;
+    font-size: 40px !important; /* Sinal de + maior */
+    background: var(--primary) !important;
+    color: white !important;
+    border: none !important;
+    border-radius: 50% !important;
+    position: fixed !important;
+    bottom: 30px !important;
+    right: 30px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2) !important;
+    cursor: pointer !important;
+    z-index: 99 !important;
+    overflow: hidden !important; /* Para o brilho não escapar do círculo */
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
+}
+
+/* Dinâmica de Hover (Passar o mouse ou segurar o dedo) */
+.fab-button:hover {
+    transform: translateY(-10px) scale(1.1) rotate(90deg) !important; /* Eleva, cresce e gira o + */
+    box-shadow: 0 15px 35px rgba(0,0,0,0.3) !important;
+    filter: brightness(1.1);
+}
+
+/* Feedback de Clique */
+.fab-button:active {
+    transform: translateY(2px) scale(0.9) !important;
+    transition: 0.1s !important;
+}
+
+/* Efeito de Brilho (Glint) para o círculo */
+.btn-brilho::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -150%;
+    width: 40%;
+    height: 200%;
+    background: linear-gradient(
+        to right, 
+        transparent, 
+        rgba(255, 255, 255, 0.5), 
+        transparent
+    );
+    transform: rotate(30deg);
+    transition: 0.8s;
+}
+
+.btn-brilho:hover::after {
+    left: 150%;
+}
 .btn-confirm { width: 100%; background: var(--primary); color: white; border: none; padding: 18px; border-radius: 15px; font-size: 1rem; font-weight: 800; cursor: pointer; margin-top: 10px; }
 .card-input { background: white; padding: 12px; border-radius: 12px; margin-bottom: 12px; }
 .card-input label { font-size: 0.7rem; color: #94A3B8; font-weight: 800; display: block; margin-bottom: 4px; }
@@ -189,6 +243,9 @@ header {
 /* Garante que o conteúdo das telas escondidas tenha um respiro no topo */
 #screen-form, #screen-config {
     position: absolute; /* Força a seção a ir para o topo */
+    transform: translateY(-5px) scale(1.02); /* Levanta e cresce levemente */
+    box-shadow: 0 15px 30px rgba(0,0,0,0.15); /* Sombra fica mais profunda */
+    filter: brightness(1.1); /* Brilha levemente */
     top: 0;
     left: 0;
     width: 100%;
@@ -210,3 +267,121 @@ header {
 }
 
 .force-hidden { display: none !important; }
+
+/* --- TELA DE PERFIL MODERNA --- */
+#screen-config {
+    padding: 20px;
+    background: var(--bg);
+}
+
+/* Cabeçalho do Perfil Independente */
+#screen-config .form-header {
+    background: white;
+    padding: 25px 20px;
+    border-radius: 20px;
+    margin: 0 10px 25px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    border-left: 6px solid var(--primary);
+}
+
+/* Cards de Input Estilizados no Perfil */
+#screen-config .card-input {
+    background: white;
+    border: 1px solid #E2E8F0;
+    padding: 15px 20px;
+    border-radius: 18px;
+    margin: 0 10px 15px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+#screen-config .card-input:focus-within {
+    border-color: var(--primary);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+}
+
+ /* efeito ao clicar no botão */
+#screen-form .btn-confirm {
+    width: calc(100% - 40px);
+    margin: 20px auto;
+    display: block;
+    padding: 22px;
+    border-radius: 20px;
+    background: var(--primary);
+    color: white;
+    font-size: 1.2rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    border: none;
+    cursor: pointer;
+    position: relative; /* Necessário para o brilho ::after */
+    overflow: hidden;    /* Corta o brilho fora do botão */
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+}
+
+/* 2. Dinâmica ao passar o mouse (Hover) */
+#screen-form .btn-confirm:hover {
+    transform: translateY(-5px) scale(1.02); /* Eleva e cresce levemente */
+    box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+    filter: brightness(1.1);
+}
+
+/* 3. Dinâmica ao clicar (Active) */
+#screen-form .btn-confirm:active {
+    transform: translateY(2px) scale(0.98);
+    box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+    transition: 0.1s;
+}
+
+/* 4. Efeito de Brilho (Glint) */
+#screen-form .btn-confirm::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -100%; /* Começa bem fora à esquerda */
+    width: 20%;
+    height: 200%;
+    background: rgba(255, 255, 255, 0.3);
+    transform: rotate(30deg);
+    transition: 0.6s;
+}
+
+/* Move o brilho ao passar o mouse */
+#screen-form .btn-confirm:hover::after {
+    left: 150%; /* Atravessa o botão até o outro lado */
+}
+
+/* --- Outros elementos (Perfil e Cores) --- */
+#screen-config .btn-confirm:active {
+    transform: scale(0.96);
+    filter: brightness(0.9);
+}
+
+.color-dot.selected {
+    animation: colorPulse 2s infinite;
+}
+
+/* Bolinhas de Cores Quadradas Modernas */
+#color-palette div {
+    border-radius: 12px !important; /* Estilo iOS/Moderno */
+    transition: all 0.3s ease !important;
+}
+
+@keyframes colorPulse {
+    0% { box-shadow: 0 0 0 4px white, 0 0 15px var(--primary); }
+    50% { box-shadow: 0 0 0 5px white, 0 0 25px var(--primary); }
+    100% { box-shadow: 0 0 0 4px white, 0 0 15px var(--primary); }
+}
+
+#color-palette {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    padding: 10px 5px;
+}
