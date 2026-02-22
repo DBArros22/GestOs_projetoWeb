@@ -1,13 +1,118 @@
-:root { --primary: #8DE085; --primary-dark: #5CAD55; --bg: #F0F4F3; --card: #FFFFFF; --text: #1A1C1A; }
-* { box-sizing: border-box; font-family: 'Inter', sans-serif; -webkit-tap-highlight-color: transparent; }
-body { background: var(--bg); color: var(--text); margin: 0; }
+/* --- FUNDAÇÃO E VARIÁVEIS --- */
+:root { 
+    --primary: #8DE085; 
+    --primary-dark: #5CAD55; 
+    --bg: #F0F4F3; 
+    --card: #FFFFFF; 
+    --text: #1A1C1A; 
+}
 
-header { background: var(--primary); padding: 30px 20px 20px; border-radius: 0 0 25px 25px; position: sticky; top:0; z-index: 100; }
+
+.auth-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #F1F5F9;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10000; /* Garante que fica por cima de TUDO */
+}
+
+/* Garante que o Header e o FAB não fiquem na frente se não tiverem .hidden */
+.hidden {
+    display: none !important;
+}
+
+.auth-card {
+    background: white;
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    width: 90%; max-width: 400px;
+    text-align: center;
+}
+.auth-card h2 { color: #1E293B; margin-bottom: 20px; font-size: 1.4rem; }
+.auth-card input {
+    width: 100%; padding: 12px; margin-bottom: 15px;
+    border: 1px solid #E2E8F0; border-radius: 8px;
+    font-size: 1rem; outline: none;
+}
+.auth-card input:focus { border-color: var(--primary); }
+.auth-footer { margin-top: 20px; font-size: 0.85rem; color: #64748B; cursor: pointer; }
+.auth-footer p:hover { color: var(--primary); text-decoration: underline; }
+
+* { 
+    box-sizing: border-box; 
+    font-family: 'Inter', sans-serif; 
+    -webkit-tap-highlight-color: transparent; 
+}
+
+body { 
+    background: var(--bg); 
+    color: var(--text); 
+    margin: 0; 
+    overflow-x: hidden;
+}
+
+/* --- HEADER PRINCIPAL (LISTA) --- */
+header { 
+    background: var(--primary); 
+    padding: 30px 20px 25px; 
+    border-radius: 0 0 30px 30px; 
+    position: relative; 
+    z-index: 100; 
+}
+
 .header-content { display: flex; justify-content: space-between; align-items: center; }
 .logo { font-weight: 800; font-size: 1.5rem; color: white; cursor: pointer; }
-.logo span { color: var(--text); }
+.logo-upload-container {
+    width: 100%;
+    margin-top: 10px;
+}
+
+.custom-logo-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border: 2px dashed #CBD5E0;
+    border-radius: 12px;
+    padding: 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background: #F8FAFC;
+    color: #64748B;
+    text-align: center;
+}
+
+.custom-logo-btn:hover {
+    border-color: var(--primary);
+    background: #F1F5F9;
+}
+
+#logo-preview-img {
+    max-height: 60px;
+    margin-bottom: 8px;
+    border-radius: 4px;
+}
+
+.hidden { display: none !important; }
+
+/* Cor da parte 'OS' */
+.logo span {
+    color: #5CAD55; /* Mude aqui para a cor que desejar */
+}
+
+/* Cor da parte 'Gest' (opcional) */
+.logo {
+    color: #1E293B; /* Mude aqui para a cor da primeira parte */
+}
 .btn-config { background: rgba(255,255,255,0.3); border:none; padding: 8px 12px; border-radius: 10px; color: white; font-weight: 600; cursor:pointer; }
 
+/* --- GRID FINANCEIRO E FILTROS --- */
 .finance-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 20px; }
 .fin-card { background: white; padding: 12px; border-radius: 15px; text-align: center; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
 .fin-card small { font-size: 0.6rem; color: #94A3B8; font-weight: 800; display: block; }
@@ -17,294 +122,95 @@ header { background: var(--primary); padding: 30px 20px 20px; border-radius: 0 0
 #filter-status { background: rgba(255,255,255,0.4); border:none; padding: 5px; border-radius: 8px; font-size: 0.8rem; outline:none; }
 #usage-status { font-size: 0.75rem; font-weight: bold; color: white; }
 
-.os-card { background: var(--card); margin: 15px 20px; padding: 18px; border-radius: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.02); }
+/* --- CARDS E BUSCA --- */
+.search-container { padding: 15px 20px; margin-bottom: 5px; }
+#search-input { 
+    width: 100%; padding: 14px 18px; border-radius: 15px; border: 1px solid #E2E8F0; 
+    background: white; font-size: 1rem; outline: none; box-shadow: 0 4px 12px rgba(0,0,0,0.03); transition: all 0.3s ease; 
+}
+#search-input:focus { border-color: var(--primary); box-shadow: 0 4px 15px rgba(141, 224, 133, 0.2); }
+
+.os-card { 
+    background: var(--card); margin: 15px 20px; padding: 18px; border-radius: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.02); 
+    cursor: pointer;
+    transition: transform 0.2s;
+    }
+
+.os-card:active { transform: scale(0.98); }
+
+/* Estilo da folha de visualização */
+.view-sheet {
+    background: white;
+    margin: 20px;
+    padding: 25px;
+    border-radius: 20px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+}
+.view-row { margin-bottom: 15px; border-bottom: 1px solid #f1f5f9; padding-bottom: 10px; }
+.view-row label { font-size: 0.7rem; color: #94A3B8; font-weight: 800; text-transform: uppercase; }
+.view-row p { margin: 5px 0 0 0; font-weight: 600; color: var(--text); }
+
 .status-pill { font-size: 0.6rem; padding: 3px 8px; border-radius: 5px; font-weight: 800; margin-bottom: 5px; display: inline-block; }
 .pill-concluido { background: #E0F2FE; color: #0284C7; }
 .pill-aberto { background: #FEF3C7; color: #D97706; }
 
-.hidden { display: none !important; }
-.fab-button {
-    width: 70px !important; /* Aumentado de 60px para 70px */
-    height: 70px !important;
-    font-size: 40px !important; /* Sinal de + maior */
-    background: var(--primary) !important;
-    color: white !important;
-    border: none !important;
-    border-radius: 50% !important;
-    position: fixed !important;
-    bottom: 30px !important;
-    right: 30px !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.2) !important;
-    cursor: pointer !important;
-    z-index: 99 !important;
-    overflow: hidden !important; /* Para o brilho não escapar do círculo */
-    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
-}
-
-/* Dinâmica de Hover (Passar o mouse ou segurar o dedo) */
-.fab-button:hover {
-    transform: translateY(-10px) scale(1.1) rotate(90deg) !important; /* Eleva, cresce e gira o + */
-    box-shadow: 0 15px 35px rgba(0,0,0,0.3) !important;
-    filter: brightness(1.1);
-}
-
-/* Feedback de Clique */
-.fab-button:active {
-    transform: translateY(2px) scale(0.9) !important;
-    transition: 0.1s !important;
-}
-
-/* Efeito de Brilho (Glint) para o círculo */
-.btn-brilho::after {
-    content: '';
-    position: absolute;
-    top: -50%;
-    left: -150%;
-    width: 40%;
-    height: 200%;
-    background: linear-gradient(
-        to right, 
-        transparent, 
-        rgba(255, 255, 255, 0.5), 
-        transparent
-    );
-    transform: rotate(30deg);
-    transition: 0.8s;
-}
-
-.btn-brilho:hover::after {
-    left: 150%;
-}
-.btn-confirm { width: 100%; background: var(--primary); color: white; border: none; padding: 18px; border-radius: 15px; font-size: 1rem; font-weight: 800; cursor: pointer; margin-top: 10px; }
-.card-input { background: white; padding: 12px; border-radius: 12px; margin-bottom: 12px; }
-.card-input label { font-size: 0.7rem; color: #94A3B8; font-weight: 800; display: block; margin-bottom: 4px; }
-.card-input input, .card-input textarea { width: 100%; border:none; outline:none; font-size: 1rem; }
-
-/* --- Barra de Pesquisa Moderna --- */
-.search-container {
-    padding: 15px 20px;
-    margin-bottom: 5px;
-}
-
-#search-input {
-    width: 100%;
-    padding: 14px 18px;
-    border-radius: 15px;
-    border: 1px solid #E2E8F0;
-    background: white;
-    font-size: 1rem;
-    outline: none;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.03);
-    transition: all 0.3s ease;
-}
-
-#search-input:focus {
-    border-color: var(--primary);
-    box-shadow: 0 4px 15px rgba(141, 224, 133, 0.2);
-}
-
-/* --- Inputs do Formulário Melhores --- */
-.card-input {
-    background: white;
-    padding: 15px;
-    border-radius: 16px;
-    margin: 0 20px 15px;
-    border: 1px solid #EDF2F7;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.02);
-}
-
-.card-input label {
-    font-size: 0.75rem;
-    color: #94A3B8;
-    font-weight: 800;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    display: block;
-    margin-bottom: 8px;
-}
-
-.card-input input, 
-.card-input textarea, 
-.card-input select {
-    width: 100%;
-    border: none;
-    outline: none;
-    font-size: 1rem;
-    color: var(--text);
-    background: transparent;
-    font-weight: 500;
-}
-
-/* Ajuste específico para Textarea */
-.card-input input::placeholder, 
-.card-input textarea::placeholder {
-    color: #CBD5E0;
-    font-size: 0.9rem;
-    font-weight: 400;
-}
-
-/* --- Ajuste Geral do Header para não cobrir a busca --- */
-header {
-    background: var(--primary);
-    padding: 30px 20px 25px; /* Mais espaço interno */
-    border-radius: 0 0 30px 30px;
-    position: relative; /* Mudado de sticky para relative se houver sobreposição ruim */
-    z-index: 100;
-}
-
-/* Fundo escurecido que cobre toda a tela */
-.modal {
+/* --- TELAS DE FORMULÁRIO E PERFIL (WEBAPP MODE) --- */
+#screen-form, #screen-config {
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.7); /* Escurece o fundo */
-    display: flex;
-    align-items: center; /* Centraliza verticalmente */
-    justify-content: center; /* Centraliza horizontalmente */
-    z-index: 9999; /* Garante que fique acima de tudo */
-    padding: 20px;
+    top: 0; left: 0; width: 100%; height: 100vh;
+    background: #F8FAFC; /* Fundo refinado para destacar os cards */
+    z-index: 1000;
+    overflow-y: auto;
+    padding-top: 0;
+    padding-bottom: 50px; /* Adiciona um espaço extra dentro da tela de perfil */
 }
 
-/* Caixa branca do aviso no centro */
-.modal-content.paywall-box {
-    background: white;
-    width: 100%;
-    max-width: 400px;
-    padding: 30px;
-    border-radius: 24px;
-    text-align: center;
-    box-shadow: 0 20px 40px rgba(0,0,0,0.3);
-    animation: zoomIn 0.3s ease-out; /* Efeito de entrada */
-}
-
-@keyframes zoomIn {
-    from { transform: scale(0.8); opacity: 0; }
-    to { transform: scale(1); opacity: 1; }
-}
-
-.hidden { display: none !important; }
-
-/* Botões dentro do modal */
-.paywall-box button {
-    width: 100%;
-    padding: 14px;
-    border-radius: 12px;
-    font-size: 1rem;
-    margin-top: 10px;
-    transition: 0.2s;
-}
-
-/* --- Ajuste do Cabeçalho das Telas (Form e Config) --- */
 .form-header {
-    background: var(--bg);
-    position: sticky;
-    top: 0;
-    z-index: 1001;
-}
-
-.form-header h2 {
-    margin: 0;
-    font-size: 1.2rem;
-    font-weight: 800;
-    color: var(--text);
-}
-
-/* --- Botão Voltar Estilizado --- */
-.btn-back {
-    background: white;
-    border: 1px solid #E2E8F0;
-    color: var(--text);
-    padding: 10px 16px;
-    border-radius: 12px;
-    font-size: 0.9rem;
-    font-weight: 700;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.04);
-    transition: all 0.2s ease;
-    min-width: 90px;
-}
-
-.btn-back:active {
-    transform: scale(0.95);
-    background: #F8FAFC;
-    border-color: var(--primary);
-}
-
-
-
-/* Garante que o conteúdo das telas escondidas tenha um respiro no topo */
-#screen-form, #screen-config {
-    position: absolute; /* Força a seção a ir para o topo */
-    transform: translateY(-5px) scale(1.02); /* Levanta e cresce levemente */
-    box-shadow: 0 15px 30px rgba(0,0,0,0.15); /* Sombra fica mais profunda */
-    filter: brightness(1.1); /* Brilha levemente */
-    top: 0;
-    left: 0;
-    width: 100%;
-    min-height: 100vh;
-    background: var(--bg);
-    z-index: 1000; /* Fica acima de qualquer resquício do header */
-    padding-top: 10px;
-}
-
-@keyframes slideUp {
-    from { transform: translateY(20px); opacity: 0; }
-    to { transform: translateY(0); opacity: 1; }
-}
-
-#screen-form, #screen-config {
-    min-height: 100vh;
-    background: var(--bg);
-    padding-top: 20px;
-}
-
-.force-hidden { display: none !important; }
-
-/* --- TELA DE PERFIL MODERNA --- */
-#screen-config {
-    padding: 20px;
-    background: var(--bg);
-}
-
-/* Cabeçalho do Perfil Independente */
-#screen-config .form-header {
     background: white;
     padding: 25px 20px;
-    border-radius: 20px;
-    margin: 0 10px 25px;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.05);
     display: flex;
     align-items: center;
     gap: 15px;
-    border-left: 6px solid var(--primary);
+    position: sticky;
+    top: 0;
+    z-index: 1010;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
 }
 
-/* Cards de Input Estilizados no Perfil */
-#screen-config .card-input {
+#screen-config .form-header { border-left: 6px solid var(--primary); }
+
+/* --- INPUTS MODERNOS (ESTILO PREMIUM) --- */
+.card-input {
     background: white;
-    border: 1px solid #E2E8F0;
-    padding: 15px 20px;
-    border-radius: 18px;
-    margin: 0 10px 15px;
+    padding: 18px 22px;
+    border-radius: 20px;
+    margin: 12px 20px;
+    border: 1px solid rgba(226, 232, 240, 0.8);
+    box-shadow: 0 4px 6px rgba(0,0,0,0.02);
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-#screen-config .card-input:focus-within {
+.card-input:focus-within {
     border-color: var(--primary);
-    transform: translateY(-2px);
-    box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+    transform: scale(1.01);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.05);
 }
 
- /* efeito ao clicar no botão */
-#screen-form .btn-confirm {
+.card-input label {
+    font-size: 0.72rem; color: #64748B; font-weight: 800;
+    text-transform: uppercase; letter-spacing: 0.8px; display: block; margin-bottom: 8px;
+}
+
+.card-input input, .card-input textarea, .card-input select {
+    width: 100%; border: none; outline: none; font-size: 1.05rem;
+    color: #1E293B; background: transparent; font-weight: 600;
+}
+
+#screen-form textarea { min-height: 100px; resize: none; line-height: 1.5; }
+::placeholder { color: #CBD5E0; font-weight: 400; }
+
+/* --- BOTÕES COM DINÂMICA E BRILHO --- */
+.btn-confirm {
     width: calc(100% - 40px);
     margin: 20px auto;
     display: block;
@@ -312,76 +218,96 @@ header {
     border-radius: 20px;
     background: var(--primary);
     color: white;
-    font-size: 1.2rem;
+    font-size: 1.1rem;
     font-weight: 800;
     text-transform: uppercase;
     letter-spacing: 2px;
     border: none;
     cursor: pointer;
-    position: relative; /* Necessário para o brilho ::after */
-    overflow: hidden;    /* Corta o brilho fora do botão */
+    position: relative;
+    overflow: hidden;
     transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     box-shadow: 0 10px 20px rgba(0,0,0,0.1);
 }
 
-/* 2. Dinâmica ao passar o mouse (Hover) */
-#screen-form .btn-confirm:hover {
-    transform: translateY(-5px) scale(1.02); /* Eleva e cresce levemente */
-    box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+.btn-confirm:hover {
+    transform: translateY(-5px) scale(1.02);
     filter: brightness(1.1);
+    box-shadow: 0 15px 30px rgba(0,0,0,0.15);
 }
 
-/* 3. Dinâmica ao clicar (Active) */
-#screen-form .btn-confirm:active {
+.btn-confirm:active {
     transform: translateY(2px) scale(0.98);
-    box-shadow: 0 5px 10px rgba(0,0,0,0.1);
     transition: 0.1s;
 }
 
-/* 4. Efeito de Brilho (Glint) */
-#screen-form .btn-confirm::after {
+/* Efeito Glint (Brilho que atravessa) */
+.btn-confirm::after, .fab-button::after {
     content: '';
     position: absolute;
-    top: -50%;
-    left: -100%; /* Começa bem fora à esquerda */
-    width: 20%;
-    height: 200%;
-    background: rgba(255, 255, 255, 0.3);
+    top: -50%; left: -150%;
+    width: 30%; height: 200%;
+    background: linear-gradient(to right, transparent, rgba(255,255,255,0.4), transparent);
     transform: rotate(30deg);
-    transition: 0.6s;
+    transition: 0.7s;
 }
 
-/* Move o brilho ao passar o mouse */
-#screen-form .btn-confirm:hover::after {
-    left: 150%; /* Atravessa o botão até o outro lado */
+.btn-confirm:hover::after, .fab-button:hover::after { left: 150%; }
+
+/* --- BOTÃO FLUTUANTE (+) --- */
+.fab-button {
+    width: 70px !important; height: 70px !important;
+    font-size: 40px !important;
+    background: var(--primary) !important;
+    color: white !important;
+    border-radius: 50% !important;
+    position: fixed !important;
+    bottom: 30px !important; right: 30px !important;
+    display: flex !important; align-items: center; justify-content: center;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2) !important;
+    z-index: 99 !important; overflow: hidden !important;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
 }
 
-/* --- Outros elementos (Perfil e Cores) --- */
-#screen-config .btn-confirm:active {
-    transform: scale(0.96);
-    filter: brightness(0.9);
+.fab-button:hover {
+    transform: translateY(-10px) scale(1.1) rotate(90deg) !important;
 }
 
-.color-dot.selected {
-    animation: colorPulse 2s infinite;
-}
-
-/* Bolinhas de Cores Quadradas Modernas */
-#color-palette div {
-    border-radius: 12px !important; /* Estilo iOS/Moderno */
-    transition: all 0.3s ease !important;
-}
+/* --- SELETOR DE CORES --- */
+#color-palette { display: flex; gap: 15px; flex-wrap: wrap; padding: 10px 20px; }
+#color-palette div { border-radius: 12px !important; transition: 0.3s ease; }
+.color-dot.selected { animation: colorPulse 2s infinite; border: 3px solid white; transform: scale(1.1); }
 
 @keyframes colorPulse {
-    0% { box-shadow: 0 0 0 4px white, 0 0 15px var(--primary); }
+    0%, 100% { box-shadow: 0 0 0 4px white, 0 0 15px var(--primary); }
     50% { box-shadow: 0 0 0 5px white, 0 0 25px var(--primary); }
-    100% { box-shadow: 0 0 0 4px white, 0 0 15px var(--primary); }
 }
 
-#color-palette {
-    display: flex;
-    gap: 15px;
-    flex-wrap: wrap;
-    justify-content: flex-start;
-    padding: 10px 5px;
+/* --- UTILITÁRIOS E MODAIS --- */
+.hidden { display: none !important; }
+.btn-back {
+    background: white; border: 1px solid #E2E8F0; padding: 10px 16px;
+    border-radius: 12px; font-weight: 700; cursor: pointer;
+    transition: all 0.2s;
+}
+.btn-back:active { transform: scale(0.95); background: #F8FAFC; }
+
+/* Modal Paywall */
+.modal {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.7); display: flex;
+    align-items: center; justify-content: center; z-index: 9999; padding: 20px;
+}
+.modal-content.paywall-box {
+    background: white; width: 100%; max-width: 400px; padding: 30px;
+    border-radius: 24px; text-align: center; box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+    animation: zoomIn 0.3s ease-out;
+}
+@keyframes zoomIn { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+
+/* Ajuste Responsivo Desktop */
+@media (min-width: 768px) {
+    .card-input, .btn-confirm, .finance-grid { 
+        max-width: 500px; margin-left: auto !important; margin-right: auto !important; 
+    }
 }
