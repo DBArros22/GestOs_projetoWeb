@@ -154,49 +154,114 @@ function verDetalhes(id) {
     if(!os) return;
 
     const config = nichoConfig[os.nicho] || nichoConfig.tecnico;
-    document.getElementById('view-content').innerHTML = `
-        <div class="view-sheet" style="padding: 20px; background: white; border-radius: 15px; margin: 10px; border-top: 5px solid var(--primary);">
-            <div style="text-align:center; margin-bottom:15px;">
-                <span class="status-pill ${os.pagamento === 'Pago' ? 'pill-concluido' : 'pill-aberto'}">${os.pagamento.toUpperCase()}</span>
-                <h3>Ordem #${String(os.numero).padStart(3, '0')}</h3>
+    const container = document.getElementById('view-content');
+
+    // Layout de "Recibo Profissional"
+    container.innerHTML = `
+        <div class="view-sheet" style="padding: 25px; background: white; border-radius: 20px; margin: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); border-top: 8px solid var(--primary);">
+
+            <div style="text-align: center; margin-bottom: 25px; border-bottom: 1px dashed #E2E8F0; padding-bottom: 20px;">
+                <span class="status-pill ${os.pagamento === 'Pago' ? 'pill-concluido' : 'pill-aberto'}" 
+                      style="padding: 6px 16px; border-radius: 20px; font-size: 0.75rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; 
+                             background: ${os.pagamento === 'Pago' ? '#DCFCE7' : '#FEE2E2'}; 
+                             color: ${os.pagamento === 'Pago' ? '#166534' : '#991B1B'};">
+                    ${os.pagamento}
+                </span>
+                <h2 style="margin: 15px 0 5px 0; color: #1E293B; font-size: 1.6rem;">OS #${String(os.numero).padStart(3, '0')}</h2>
+                <div style="color: #64748B; font-size: 0.85rem; font-weight: 500;">
+                    📅 ${os.data} às ${os.hora}
+                </div>
             </div>
-            <p><b>Cliente:</b> ${os.cliente}</p>
-            <p><b>${config.item}:</b> ${os.equipamento}</p>
-            <p><b>Descrição:</b> ${os.defeito}</p>
-            <div style="text-align:right; margin-top:15px; border-top:1px solid #eee; padding-top:10px;">
-                <span style="font-size:1.2rem; font-weight:800; color:var(--primary);">R$ ${os.valor.replace('.',',')}</span>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px;">
+                <div style="background: #F8FAFC; padding: 12px; border-radius: 12px;">
+                    <label style="font-size: 0.65rem; font-weight: 800; color: #94A3B8; text-transform: uppercase;">Cliente</label>
+                    <p style="margin: 4px 0 0 0; font-weight: 700; color: #1E293B; font-size: 0.95rem;">${os.cliente}</p>
+                </div>
+                <div style="background: #F8FAFC; padding: 12px; border-radius: 12px;">
+                    <label style="font-size: 0.65rem; font-weight: 800; color: #94A3B8; text-transform: uppercase;">${config.item}</label>
+                    <p style="margin: 4px 0 0 0; font-weight: 700; color: #1E293B; font-size: 0.95rem;">${os.equipamento}</p>
+                </div>
+            </div>
+
+            <div style="background: #F8FAFC; padding: 15px; border-radius: 12px; margin-bottom: 25px;">
+                <label style="font-size: 0.65rem; font-weight: 800; color: #94A3B8; text-transform: uppercase;">Descrição do Serviço</label>
+                <p style="margin: 8px 0 0 0; color: #475569; font-size: 0.9rem; line-height: 1.5; white-space: pre-line;">${os.defeito}</p>
+            </div>
+
+            <div style="display: flex; justify-content: space-between; align-items: center; padding-top: 15px; border-top: 2px solid #F1F5F9;">
+                <span style="font-weight: 800; color: #64748B; font-size: 0.9rem;">VALOR TOTAL</span>
+                <span style="font-size: 1.5rem; font-weight: 900; color: var(--primary);">R$ ${os.valor.replace('.', ',')}</span>
             </div>
         </div>`;
 
-    document.getElementById('area-pagamento-os').innerHTML = os.pagamento !== 'Pago' ? 
-        `<button onclick="marcarComoPago(${os.id}); verDetalhes(${os.id})" class="btn-confirm" style="background:#34C759;width:100%;">✅ Marcar como Pago</button>` : '';
+    // Atualiza botões de ação
+    const areaPagamento = document.getElementById('area-pagamento-os');
+    if (areaPagamento) {
+        areaPagamento.innerHTML = os.pagamento !== 'Pago' ? 
+            `<button onclick="marcarComoPago(${os.id}); verDetalhes(${os.id})" class="btn-confirm" 
+                     style="background:#34C759; width:100%; margin-top:10px; box-shadow: 0 4px 12px rgba(52, 199, 89, 0.2);">
+                ✅ Marcar como Pago agora
+            </button>` : '';
+    }
 
     document.getElementById('btn-regerar-pdf').onclick = () => gerarPDF(os);
     document.getElementById('btn-compartilhar-zap').onclick = () => {
-        const msg = `Olá ${os.cliente}, segue detalhes da sua OS #${os.numero}. Valor: R$ ${os.valor}.`;
+        const msg = `Olá ${os.cliente}, segue detalhes da sua OS #${os.numero}.\n*Valor:* R$ ${os.valor.replace('.',',')}\n*Status:* ${os.pagamento}`;
         window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(msg)}`);
     };
+
     showScreen('view');
 }
 
 function gerarPDF(os) {
     const config = nichoConfig[os.nicho] || nichoConfig.tecnico;
-    const logoHtml = configEmpresa.logo ? `<img src="${configEmpresa.logo}" style="max-height:70px; margin-bottom:10px;">` : '';
+    const logoHtml = configEmpresa.logo ? `<img src="${configEmpresa.logo}" style="max-height:70px; margin-bottom:10px; display:block;">` : '';
 
     const element = document.createElement('div');
+    // Adicionado display block e background white para garantir captura do html2pdf
+    element.style.padding = "40px";
+    element.style.background = "white";
+    element.style.color = "black";
+
     element.innerHTML = `
-        <div style="padding:40px; font-family:Arial;">
-            <div style="display:flex; justify-content:space-between;">
-                <div>${logoHtml}<h2>${configEmpresa.nome || 'GestOS'}</h2><p>${configEmpresa.cnpj || ''}</p></div>
-                <div style="text-align:right;"><h1>OS #${os.numero}</h1><p>${os.data}</p></div>
+        <div style="font-family:Arial, sans-serif;">
+            <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom: 20px;">
+                <div>
+                    ${logoHtml}
+                    <h2 style="margin:0; color:#1a1a1a;">${configEmpresa.nome || 'GestOS'}</h2>
+                    <p style="margin:5px 0; color:#666;">${configEmpresa.cnpj || ''}</p>
+                </div>
+                <div style="text-align:right;">
+                    <h1 style="margin:0; color:#1a1a1a;">OS #${String(os.numero).padStart(3, '0')}</h1>
+                    <p style="margin:5px 0; color:#666;">Data: ${os.data}</p>
+                </div>
             </div>
-            <hr>
-            <p><b>Cliente:</b> ${os.cliente}</p>
-            <p><b>${config.item}:</b> ${os.equipamento}</p>
-            <p><b>Descrição:</b> ${os.defeito}</p>
-            <h2 style="text-align:right;">Total: R$ ${os.valor.replace('.',',')}</h2>
+            <hr style="border:0; border-top:1px solid #eee; margin:20px 0;">
+            <div style="margin-bottom:20px;">
+                <p><b>Cliente:</b> ${os.cliente}</p>
+                <p><b>${config.item}:</b> ${os.equipamento}</p>
+                <p><b>Situação:</b> ${os.pagamento}</p>
+            </div>
+            <div style="background:#f9f9f9; padding:15px; border-radius:5px; margin-bottom:20px;">
+                <p><b>Descrição:</b></p>
+                <p style="white-space: pre-line;">${os.defeito}</p>
+            </div>
+            <h2 style="text-align:right; margin-top:30px; border-top:2px solid #000; padding-top:10px;">
+                Total: R$ ${os.valor.replace('.',',')}
+            </h2>
         </div>`;
-    html2pdf().set({ margin: 0.5, filename: `OS_${os.numero}.pdf` }).from(element).save();
+
+    // Opções otimizadas para o html2pdf
+    const opt = {
+        margin: [10, 10],
+        filename: `OS_${os.numero}.pdf`,
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: { scale: 2, useCORS: true, letterRendering: true },
+        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+    };
+
+    html2pdf().set(opt).from(element).save();
 }
 
 // 5. CONFIGURAÇÕES E TEMA
