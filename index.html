@@ -10,45 +10,53 @@
 </head>
 <body>
 
-    <div id="screen-auth" class="auth-container">
-        <div class="auth-card">
-            <div class="logo" style="font-size: 2rem; margin-bottom: 20px;">Gest<span>OS</span></div>
+    <section id="screen-auth">
+        <div style="background: #f1f5f9; min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px;">
 
-            <div id="auth-login">
-                <h2>Minha OS digital</h2>
-                <input type="email" id="login-email" placeholder="Seu e-mail">
-                <input type="password" id="login-senha" placeholder="Sua senha">
-                <div style="display: flex; align-items: center; gap: 8px; margin: 10px 0; color: #64748B; font-size: 0.85rem;">
-                    <input type="checkbox" id="remember-me" style="width: 18px; height: 18px; cursor: pointer;">
-                    <label for="remember-me" style="cursor: pointer;">Lembrar de mim</label>
+            <div class="logo" style="font-size: 2.5rem; margin-bottom: 30px; font-weight: 800; color: #1E293B;">
+                Gest<span style="color: var(--primary);">OS</span>
+            </div>
+
+            <div id="auth-login" style="max-width: 400px; width: 100%; background: white; border-radius: 25px; padding: 35px 25px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); text-align: center;">
+                <h2 style="color: #1E293B; margin-bottom: 25px; font-size: 1.5rem; font-weight: 700;">Minha OS digital</h2>
+                <div style="display: flex; flex-direction: column; gap: 15px;">
+                    <input type="email" id="login-email" placeholder="Seu e-mail" style="background: #f8fafc; border: 1px solid #e2e8f0; padding: 14px; border-radius: 12px; outline: none; width: 100%; font-size: 1rem;">
+                    <input type="password" id="login-senha" placeholder="Sua senha" style="background: #f8fafc; border: 1px solid #e2e8f0; padding: 14px; border-radius: 12px; outline: none; width: 100%; font-size: 1rem;">
                 </div>
-                
-                <button class="btn-confirm" onclick="realizarLogin()">Entrar</button>
-                <div class="auth-footer">
-                    <p onclick="toggleAuth('signup')">Criar nova conta</p>
-                    <p onclick="toggleAuth('recovery')">Esqueci minha senha</p>
+                <div style="display: flex; align-items: center; gap: 8px; margin: 20px 0; color: #64748B; font-size: 0.9rem; justify-content: flex-start;">
+                    <input type="checkbox" id="remember-me" style="width: 18px; height: 18px; cursor: pointer; accent-color: var(--primary);">
+                    <label for="remember-me" style="cursor: pointer; font-weight: 500;">Lembrar de mim</label>
+                </div>
+                <button class="btn-confirm" onclick="realizarLogin()" style="width: 100%; padding: 14px; font-size: 1rem; font-weight: 700; background: var(--primary); border: none; border-radius: 12px; color: white; cursor: pointer;">Entrar</button>
+                <div class="auth-footer" style="margin-top: 25px; display: flex; flex-direction: column; gap: 12px; font-size: 0.9rem; color: var(--primary); font-weight: 600;">
+                    <p onclick="toggleAuth('signup')" style="cursor: pointer; margin: 0;">Criar nova conta</p>
+                    <p onclick="toggleAuth('recovery')" style="cursor: pointer; margin: 0; color: #64748B; font-weight: 400;">Esqueci minha senha</p>
                 </div>
             </div>
 
-            <div id="auth-signup" class="hidden">
-                <h2>Criar Conta</h2>
-                <input type="text" id="reg-nome" placeholder="Nome de Login">
-                <input type="email" id="reg-email" placeholder="E-mail">
-                <input type="password" id="reg-senha" placeholder="Senha (Letras e números, mín. 8)">
-                <input type="password" id="reg-senha-confirma" placeholder="Confirme sua senha">
-                <button class="btn-confirm" onclick="realizarCadastro()">Cadastrar e Entrar</button>
-                <p class="auth-footer" onclick="toggleAuth('login')">Já tenho conta. Entrar.</p>
+            <div id="auth-signup" class="hidden" style="max-width: 400px; width: 100%; background: white; border-radius: 25px; padding: 35px 25px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); text-align: center;">
+                <h2 style="color: #1E293B; margin-bottom: 25px; font-size: 1.5rem; font-weight: 700;">Criar Conta</h2>
+                <div style="display: flex; flex-direction: column; gap: 15px;">
+                    <input type="text" id="reg-nome" placeholder="Nome de Login" style="background: #f8fafc; border: 1px solid #e2e8f0; padding: 14px; border-radius: 12px; outline: none; width: 100%;">
+                    <input type="email" id="reg-email" placeholder="E-mail" style="background: #f8fafc; border: 1px solid #e2e8f0; padding: 14px; border-radius: 12px; outline: none; width: 100%;">
+                    <input type="password" id="reg-senha" placeholder="Senha (Letras e números, mín. 8)" style="background: #f8fafc; border: 1px solid #e2e8f0; padding: 14px; border-radius: 12px; outline: none; width: 100%;">
+                    <input type="password" id="reg-senha-confirma" placeholder="Confirme sua senha" style="background: #f8fafc; border: 1px solid #e2e8f0; padding: 14px; border-radius: 12px; outline: none; width: 100%;">
+                </div>
+                <button class="btn-confirm" onclick="realizarCadastro()" style="width: 100%; margin-top: 20px; padding: 14px; border-radius: 12px; background: var(--primary); color: white; border: none; font-weight: 700;">Cadastrar e Entrar</button>
+                <p onclick="toggleAuth('login')" style="cursor: pointer; margin-top: 15px; color: var(--primary); font-weight: 600; font-size: 0.9rem;">Já tenho conta. Entrar.</p>
             </div>
 
-            <div id="auth-recovery" class="hidden">
-                <h2>Recuperar Senha</h2>
-                <p style="font-size: 0.8rem; color: #64748B; margin-bottom: 15px;">Enviaremos um link para o seu e-mail.</p>
-                <input type="email" id="recovery-email" placeholder="Digite seu e-mail">
-                <button class="btn-confirm" onclick="recuperarSenha()">Enviar Link</button>
-                <p class="auth-footer" onclick="toggleAuth('login')">Voltar ao login</p>
+            <div id="auth-recovery" class="hidden" style="max-width: 400px; width: 100%; background: white; border-radius: 25px; padding: 35px 25px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); text-align: center;">
+                <h2 style="color: #1E293B; margin-bottom: 15px; font-size: 1.5rem; font-weight: 700;">Recuperar Senha</h2>
+                <p style="color: #64748B; font-size: 0.9rem; margin-bottom: 25px;">Insira seu e-mail para receber as instruções.</p>
+                <div style="display: flex; flex-direction: column; gap: 15px;">
+                    <input type="email" id="recovery-email" placeholder="Seu e-mail cadastrado" style="background: #f8fafc; border: 1px solid #e2e8f0; padding: 14px; border-radius: 12px; outline: none; width: 100%; font-size: 1rem;">
+                </div>
+                <button class="btn-confirm" onclick="realizarRecuperacao()" style="width: 100%; margin-top: 25px; padding: 14px; border-radius: 12px; background: var(--primary); color: white; border: none; font-weight: 700;">Enviar E-mail</button>
+                <p onclick="toggleAuth('login')" style="cursor: pointer; margin-top: 20px; color: #64748B; font-weight: 500; font-size: 0.9rem;">Voltar para o Login</p>
             </div>
         </div>
-    </div>
+    </section>
 
     <header id="main-header" class="hidden">
         <div class="header-content">
@@ -57,40 +65,26 @@
                     <div class="logo">Gest<span>OS</span></div>
                     <div id="empresa-nome-display" style="font-size: 0.65rem; color: rgba(255,255,255,0.85); font-weight: 600; margin-top: -3px; letter-spacing: 1px;"></div>
                 </div>
-
                 <div style="display: flex; gap: 10px; align-items: center;">
-                    <button onclick="toggleFiltros()" style="background: rgba(255,255,255,0.2); border: none; border-radius: 8px; width: 40px; height: 40px; color: white; font-size: 1.2rem; cursor: pointer; display: flex; align-items: center; justify-content: center;">
-                        🔍
-                    </button>
+                    <button onclick="toggleFiltros()" style="background: rgba(255,255,255,0.2); border: none; border-radius: 8px; width: 40px; height: 40px; color: white; font-size: 1.2rem; cursor: pointer; display: flex; align-items: center; justify-content: center;">🔍</button>
                     <button class="btn-config" onclick="showScreen('config')">⚙️ Perfil</button>
                 </div>
             </div>
         </div>
 
         <div class="finance-grid">
-            <div class="fin-card">
-                <small>RECEBIDO</small>
-                <span id="total-pago">R$ 0,00</span>
-            </div>
-            <div class="fin-card">
-                <small>A RECEBER</small>
-                <span id="total-pendente" style="color: #FF3B30;">R$ 0,00</span>
-            </div>
+            <div class="fin-card"><small>RECEBIDO</small><span id="total-pago">R$ 0,00</span></div>
+            <div class="fin-card"><small>A RECEBER</small><span id="total-pendente" style="color: #FF3B30;">R$ 0,00</span></div>
         </div>
 
         <div id="wrapper-filtros" class="hidden" style="margin-top: 15px; display: flex; flex-direction: column; gap: 10px; padding-bottom: 5px;">
-            <input type="text" id="search-input" placeholder="🔍 Buscar por nome ou nº..." oninput="renderList()" 
-                   style="width: 100%; padding: 12px; border-radius: 12px; border: none; outline: none; font-size: 1rem;">
-
+            <input type="text" id="search-input" placeholder="🔍 Buscar por nome ou nº..." oninput="renderList()" style="width: 100%; padding: 12px; border-radius: 12px; border: none; outline: none; font-size: 1rem;">
             <div style="display: flex; gap: 8px;">
                 <div style="flex: 1.2; display: flex; align-items: center; background: white; border-radius: 12px; padding: 0 10px; height: 45px;">
                     <span style="font-size: 1rem; margin-right: 5px;">📅</span>
-                    <input type="date" id="filter-date" onchange="renderList()" 
-                           style="border: none; outline: none; font-family: inherit; font-size: 0.85rem; width: 100%; color: #1e293b; background: transparent;">
+                    <input type="date" id="filter-date" onchange="renderList()" style="border: none; outline: none; font-family: inherit; font-size: 0.85rem; width: 100%; color: #1e293b; background: transparent;">
                 </div>
-
-                <select id="filter-status" onchange="renderList()" 
-                        style="flex: 1; padding: 0 10px; border-radius: 12px; border: none; background: white; font-size: 0.85rem; height: 45px; outline: none;">
+                <select id="filter-status" onchange="renderList()" style="flex: 1; padding: 0 10px; border-radius: 12px; border: none; background: white; font-size: 0.85rem; height: 45px; outline: none;">
                     <option value="todos">📊 Todos Status</option>
                     <option value="Pago">✅ Pagas</option>
                     <option value="Pendente">⏳ Pendentes</option>
@@ -106,9 +100,7 @@
     <main>
         <section id="screen-list" class="hidden">
             <div id="os-list" class="list-container"></div>
-            <button class="fab-button" onclick="checkLimitAndOpen()">
-                <span>+</span>
-            </button>
+            <button class="fab-button" onclick="checkLimitAndOpen()"><span>+</span></button>
         </section>
 
         <section id="screen-form" class="hidden">
@@ -135,15 +127,11 @@
 
         <section id="screen-view" class="hidden">
             <div class="form-header" style="background: var(--primary); color: white; padding: 15px 20px; display: flex; align-items: center; gap: 15px;">
-                <button onclick="showScreen('list')" style="background: rgba(255, 255, 255, 0.2); border: 1px solid white; color: white; padding: 8px 16px; border-radius: 8px; font-weight: 600; cursor: pointer; display: flex; align-items: center; font-family: 'Inter', sans-serif;">
-                    ← Voltar
-                </button>
+                <button onclick="showScreen('list')" style="background: rgba(255, 255, 255, 0.2); border: 1px solid white; color: white; padding: 8px 16px; border-radius: 8px; font-weight: 600; cursor: pointer; display: flex; align-items: center; font-family: 'Inter', sans-serif;">← Voltar</button>
                 <h2 style="margin: 0; font-size: 1.1rem; color: white;">Detalhes da Ordem</h2>
             </div>
-
             <div class="form-container" style="padding-top: 10px;">
                 <div id="view-content"></div>
-
                 <div id="view-actions" style="display: flex; flex-direction: column; gap: 10px; margin-top: 20px; padding: 0 15px;">
                     <button id="btn-regerar-pdf" class="btn-confirm" style="width: 100%;">📄 Baixar PDF agora</button>
                     <button id="btn-compartilhar-zap" class="btn-confirm" style="background:#25D366; width: 100%;">WhatsApp</button>
@@ -152,74 +140,76 @@
             </div>
         </section>
 
-        <section id="screen-config" class="hidden">
-            <div class="form-header">
-                <button class="btn-back" onclick="showScreen('list')">← Voltar</button>
-                <h2>Meu Perfil</h2>
-            </div>
-
-            <div style="padding: 10px 0 20px 0;">
-                <button onclick="zerarSistema()" 
-                        style="background: #FF3B30; color: white; border: none; padding: 12px; border-radius: 12px; width: 100%; font-weight: bold; cursor: pointer; box-shadow: 0 4px 10px rgba(255, 59, 48, 0.2);">
-                    🗑️ Limpar Todas as Ordens (Reset)
-                </button>
-            </div>
-
-            <div class="card-input">
-                <label>Sua Profissão / Nicho</label>
-                <select id="cfg-nicho">
-                    <option value="tecnico">🛠️ Técnico Geral</option>
-                    <option value="mecanico">🚗 Mecânico</option>
-                    <option value="beleza">💇 Manicure/Estética</option>
-                    <option value="ti">💻 Informática/TI</option>
-                    <option value="obra">🏗️ Construção/Obra</option>
-                    <option value="pet">🐾 Pet Shop</option>
-                    <option value="limpeza">🧹 Limpeza/Diarista</option>
-                    <option value="fotografia">📸 Fotografia</option>
-                    <option value="frete">🚚 Frete/Mudança</option>
-                    <option value="personal">💪 Personal Trainer</option>
-                </select>
-            </div>
-
-            <div class="card-input"><label>Nome da Empresa/Profissional</label><input type="text" id="cfg-nome"></div>
-            <div class="card-input"><label>CNPJ / CPF</label><input type="text" id="cfg-cnpj"></div>
-            <div class="card-input">
-                <label>Logo da Empresa</label>
-                <div class="logo-upload-container">
-                    <input type="hidden" id="cfg-logo">
-
-                    <label for="file-upload" class="custom-logo-btn">
-                        <span id="upload-text">Anexe aqui a logo da sua empresa</span>
-                        <div id="logo-preview-container" class="hidden">
-                            <img id="logo-preview-img" src="" alt="Preview">
-                            <span>Alterar logo</span>
-                        </div>
-                    </label>
-                    <input id="file-upload" type="file" accept="image/*" style="display: none;" onchange="anexarImagem(this)">
+        <section id="screen-config" class="screen hidden">
+            <div style="background: var(--primary); padding: 30px 20px 50px 20px; color: white; position: relative;">
+                <div style="display: flex; align-items: center; justify-content: space-between;">
+                    <button onclick="showScreen('list')" style="background: rgba(255,255,255,0.2); border: none; color: white; padding: 10px 15px; border-radius: 12px; cursor: pointer; font-weight: 600; display: flex; align-items: center; gap: 5px;">← Voltar</button>
+                    <h2 style="margin: 0; font-size: 1.2rem; font-weight: 700;">Meu Negócio</h2>
+                    <div style="width: 75px;"></div>
                 </div>
             </div>
 
-            <div class="card-input">
-                <label>Cor do Tema</label>
-                <div id="color-palette" style="display: flex; gap: 12px; margin: 10px 0; flex-wrap: wrap;"></div>
-                <input type="hidden" id="cfg-cor" value="#5CAD55">
-                <span style="font-size: 0.75rem; color: #64748B; display: block; margin-top: 5px;">
-                    Clique em uma cor para personalizar seu GestOS e seus PDFs.
-                </span>
-            </div>
+            <div style="background: #f8fafc; border-radius: 25px 25px 0 0; margin-top: -25px; padding: 25px 20px; position: relative; min-height: 80vh;">
+                <div style="padding: 10px 0 20px 0;">
+                    <button onclick="zerarSistema()" style="background: #FF3B30; color: white; border: none; padding: 12px; border-radius: 12px; width: 100%; font-weight: bold; cursor: pointer;">🗑️ Limpar Todas as Ordens (Reset)</button>
+                </div>
 
-            <button class="btn-confirm" onclick="saveConfig()">Salvar Dados</button>
-            
-            <button class="btn-confirm" onclick="realizarLogout()" 
-                    style="margin-top: 15px; 
-                           margin-bottom: 120px; 
-                           background: var(--primary); 
-                           filter: brightness(0.9);
-                           box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-                           border: none;">
-                Sair do Sistema
-            </button>
-            
+                <div style="max-width: 500px; margin: 0 auto; background: white; border-radius: 25px; padding: 30px 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.05);">
+                    <div class="form-container" style="display: flex; flex-direction: column; gap: 20px;">
+                        <div class="card-input">
+                            <label style="font-weight: 700; color: #64748B; font-size: 0.85rem;">Nome da Empresa / Profissional</label>
+                            <input type="text" id="cfg-nome" style="background: #f8fafc; border: 1px solid #e2e8f0; width: 100%; padding: 12px; border-radius: 12px; margin-top: 5px; outline: none;">
+                        </div>
+                        <div class="card-input">
+                            <label style="font-weight: 700; color: #64748B; font-size: 0.85rem;">CNPJ / CPF</label>
+                            <input type="text" id="cfg-cnpj" style="background: #f8fafc; border: 1px solid #e2e8f0; width: 100%; padding: 12px; border-radius: 12px; margin-top: 5px; outline: none;">
+                        </div>
+                        <div class="card-input">
+                            <label style="font-weight: 700; color: #64748B; font-size: 0.85rem;">Sua Profissão / Área de atuação</label>
+                            <div style="position: relative; margin-top: 5px;">
+                                <select id="cfg-nicho" style="background: #f8fafc; border: 1px solid #e2e8f0; width: 100%; padding: 12px 15px; border-radius: 12px; outline: none; appearance: none; -webkit-appearance: none; cursor: pointer; color: #1E293B; font-weight: 500; width: 100%;">
+                                    <option value="tecnico">🛠️ Técnico Geral</option>
+                                    <option value="mecanico">🚗 Mecânico</option>
+                                    <option value="beleza">💇 Manicure / Estética</option>
+                                    <option value="ti">💻 Informática / TI</option>
+                                    <option value="obra">🏗️ Construção/Obra</option>
+                                    <option value="pet">🐾 Pet Shop</option>
+                                    <option value="limpeza">🧹 Limpeza/Diarista</option>
+                                    <option value="fotografia">📸 Fotografia</option>
+                                    <option value="frete">🚚 Frete/Mudança</option>
+                                    <option value="Chaveiro">🔑 Chaveiro</option>
+                                    <option value="Encanador">🔧 Encanador</option>
+                                    <option value="Eletricista">✨ Eletricista</option>
+                                    <option value="Cabelereira">💇 Cabelereira</option>
+                                    <option value="Pedreiro">👷🏻‍♀️ Pedreiro</option>
+                                </select>
+                                <div style="position: absolute; right: 15px; top: 50%; transform: translateY(-50%); pointer-events: none; color: #94A3B8;">▼</div>
+                            </div>
+                        </div>
+                        <div class="card-input">
+                            <label style="font-weight: 700; color: #64748B; font-size: 0.85rem;">Logo da Empresa</label>
+                            <div class="logo-upload-container" style="margin-top: 8px;">
+                                <input type="hidden" id="cfg-logo">
+                                <label for="file-upload" style="background: #f8fafc; border: 2px dashed #cbd5e1; border-radius: 12px; padding: 20px; display: block; text-align: center; cursor: pointer;">
+                                    <span id="upload-text" style="color: #64748B; font-size: 0.9rem;">Anexe aqui a logo da sua empresa</span>
+                                    <div id="logo-preview-container" class="hidden">
+                                        <img id="logo-preview-img" src="" alt="Preview" style="max-height: 80px; margin-bottom: 10px;">
+                                        <span style="display: block; color: var(--primary); font-weight: 600;">Alterar logo</span>
+                                    </div>
+                                </label>
+                                <input id="file-upload" type="file" accept="image/*" style="display: none;" onchange="anexarImagem(this)">
+                            </div>
+                        </div>
+                        <div class="card-input">
+                            <label style="font-weight: 700; color: #64748B; font-size: 0.85rem;">Cor do Tema</label>
+                            <div id="color-palette" style="display: flex; gap: 12px; margin: 10px 0; flex-wrap: wrap;"></div>
+                            <input type="hidden" id="cfg-cor" value="#5CAD55">
+                        </div>
+                        <button class="btn-confirm" onclick="saveConfig()" style="width: 100%;">Salvar Dados</button>
+                        <button class="btn-confirm" onclick="realizarLogout()" style="margin-top: 15px; margin-bottom: 40px; background: var(--primary); filter: brightness(0.9); width: 100%;">Sair do Sistema</button>
+                    </div>
+                </div>
+            </div>
         </section>
     </main>
 
@@ -227,47 +217,34 @@
         <div class="modal-content paywall-box">
             <div id="pw-oferta">
                 <div style="font-size: 3rem; margin-bottom: 10px;">🚀</div>
-                <h2 style="color: #1E293B;">Limite Atingido!</h2>
-                <p style="color: #64748B; margin-bottom: 20px;">
-                    Você atingiu o limite de 5 OS gratuitas. Deseja assinar o <b>Plano Pro</b> por apenas <b>R$ 50,00/mês</b>.
-                </p>
-                <div style="display: flex; flex-direction: column; gap: 10px;">
-                    <button class="btn-confirm" onclick="showCheckout()">SIM, QUERO ASSINAR AGORA!</button>
-                    <button onclick="closePaywall()" style="background: none; border: none; color: #94A3B8; cursor: pointer;">Agora não, obrigado</button>
-                </div>
+                <h2>Limite Atingido!</h2>
+                <p>Você atingiu o limite de 5 OS gratuitas. Deseja assinar o Plano Pro por R$ 50,00/mês?</p>
+                <button class="btn-confirm" onclick="showCheckout()">SIM, QUERO ASSINAR!</button>
+                <button onclick="closePaywall()" style="background: none; border: none; color: #94A3B8; cursor: pointer; margin-top: 10px;">Agora não</button>
             </div>
-
             <div id="pw-checkout" class="hidden">
-                <h3 style="margin-bottom: 15px;">Escolha o Pagamento</h3>
+                <h3>Escolha o Pagamento</h3>
                 <div style="display: flex; gap: 10px; margin-bottom: 20px;">
-                    <button onclick="selectMetodo('pix')" style="flex:1; padding: 10px; border-radius: 8px; border: 1px solid #E2E8F0; background: white;">PIX</button>
-                    <button onclick="selectMetodo('card')" style="flex:1; padding: 10px; border-radius: 8px; border: 1px solid #E2E8F0; background: white;">CARTÃO</button>
+                    <button onclick="selectMetodo('pix')" style="flex:1; padding: 10px; border-radius: 8px;">PIX</button>
+                    <button onclick="selectMetodo('card')" style="flex:1; padding: 10px; border-radius: 8px;">CARTÃO</button>
                 </div>
-                <div id="payment-area" style="background: #F8FAFC; padding: 15px; border-radius: 10px; min-height: 100px;">
-                    <p style="font-size: 0.85rem; color: #64748B;">Selecione um método acima.</p>
-                </div>
-                <button onclick="voltarOferta()" style="margin-top: 15px; background: none; border: none; color: #64748B;">← Voltar</button>
+                <div id="payment-area"></div>
+                <button onclick="voltarOferta()" style="margin-top: 15px; background: none; border: none;">← Voltar</button>
             </div>
         </div>
     </div>
-
 
     <div id="modal-logout" class="hidden" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 9999; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(4px);">
-        <div style="background: white; width: 85%; max-width: 320px; padding: 30px; border-radius: 20px; text-align: center; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.2);">
+        <div style="background: white; width: 85%; max-width: 320px; padding: 30px; border-radius: 20px; text-align: center;">
             <div style="font-size: 3rem; margin-bottom: 15px;">🚪</div>
-            <h2 style="color: #1E293B; margin-bottom: 10px; font-family: 'Inter', sans-serif;">Deseja sair?</h2>
-            <p style="color: #64748B; margin-bottom: 25px; font-size: 0.9rem; font-family: 'Inter', sans-serif;">Sua sessão será encerrada e você voltará para a tela de login.</p>
-
+            <h2 style="color: #1E293B; margin-bottom: 10px;">Deseja sair?</h2>
+            <p style="color: #64748B; margin-bottom: 25px; font-size: 0.9rem;">Sua sessão será encerrada.</p>
             <div style="display: flex; flex-direction: column; gap: 10px;">
-                <button class="btn-confirm" onclick="confirmarSaida()" style="background: var(--primary); width: 100%;">Confirmar Saída</button>
-                <button onclick="fecharModalLogout()" style="background: #f1f5f9; border: none; color: #475569; padding: 12px; border-radius: 12px; font-weight: 600; cursor: pointer; font-family: 'Inter', sans-serif;">Cancelar</button>
+                <button class="btn-confirm" onclick="confirmarSaida()" style="width: 100%;">Confirmar Saída</button>
+                <button onclick="fecharModalLogout()" style="background: #f1f5f9; border: none; color: #475569; padding: 12px; border-radius: 12px; font-weight: 600; cursor: pointer;">Cancelar</button>
             </div>
         </div>
     </div>
-
-    <script src="script.js"></script>
-</body>
-</html>
 
     <script src="script.js"></script>
 </body>
