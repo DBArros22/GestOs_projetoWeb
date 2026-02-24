@@ -90,6 +90,7 @@ if(osForm) {
     });
 }
 
+ // Função dos filtros de pesquisa
     function renderList() {
         const container = document.getElementById('os-list');
         if (!container) return;
@@ -363,7 +364,81 @@ function updateNicho() {
     document.getElementById('label-servico').innerText = config.desc;
 }
 
-function showPaywall() { document.getElementById('paywall').classList.remove('hidden'); }
+function showPaywall() {
+    const paywall = document.getElementById('paywall');
+    if (paywall) {
+        paywall.classList.remove('hidden');
+        paywall.style.display = 'flex'; // Garante centralização
+        paywall.innerHTML = `
+            <div class="paywall-content" style="max-width: 400px; width: 90%; background: white; padding: 25px; border-radius: 20px; text-align: center; box-shadow: 0 10px 25px rgba(0,0,0,0.2);">
+                <h2 style="color: #1e293b; margin-bottom: 15px;">Limite Atingido</h2>
+                <p style="color: #64748b; margin-bottom: 25px;">Você atingiu o limite de 5 ordens. Deseja assinar o plano PRO para ter acesso ilimitado?</p>
+                <button onclick="exibirFormasPagamento()" class="btn-confirm" style="width: 100%; margin-bottom: 10px;">Sim, quero continuar</button>
+                <button onclick="closePaywall()" class="btn-cancel" style="width: 100%; background: none; border: none; color: #94a3b8; cursor: pointer;">Agora não</button>
+            </div>
+        `;
+    }
+}
+
+function gerarInterfacePix() {
+    const paywall = document.getElementById('paywall');
+    // Aqui simulamos uma chave aleatória para o QR Code (Preparado para API)
+    const chaveAleatoria = "00020126580014br.gov.bcb.pix0136" + Math.random().toString(36).substring(2, 15);
+
+    paywall.innerHTML = `
+        <div class="paywall-content" style="max-width: 400px; width: 90%; background: white; padding: 25px; border-radius: 20px; text-align: center;">
+            <h3>Pagamento via PIX</h3>
+            <div style="background: #f1f5f9; padding: 20px; border-radius: 12px; margin: 20px 0;">
+                <div style="width: 150px; height: 150px; background: #333; margin: 0 auto; display: flex; align-items: center; justify-content: center; color: white; font-size: 0.8rem;">
+                    [QR CODE AQUI]
+                </div>
+                <p style="font-size: 0.7rem; color: #64748B; margin-top: 10px; word-break: break-all;">${chaveAleatoria}</p>
+            </div>
+            <button onclick="navigator.clipboard.writeText('${chaveAleatoria}').then(() => alert('Chave Copiada!'))" class="btn-confirm" style="width: 100%; margin-bottom: 10px;">Copiar Chave PIX</button>
+            <button onclick="exibirFormasPagamento()" style="width: 100%; background: none; border: none; color: #94a3b8; cursor: pointer;">Voltar</button>
+        </div>
+    `;
+}
+
+function gerarInterfaceCartao() {
+    const paywall = document.getElementById('paywall');
+    paywall.innerHTML = `
+        <div class="paywall-content" style="max-width: 380px; width: 90%; background: white; padding: 20px; border-radius: 20px; box-sizing: border-box; overflow: hidden;">
+            <h3 style="text-align: center; margin: 0 0 20px 0; font-family: sans-serif;">Dados do Cartão</h3>
+            <form id="payment-card-form" style="display: flex; flex-direction: column; gap: 12px; width: 100%; box-sizing: border-box;">
+
+                <input type="text" placeholder="Nome impresso" required 
+                    style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; font-size: 16px;">
+
+                <input type="text" placeholder="Número do Cartão" maxlength="16" required 
+                    style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; font-size: 16px;">
+
+                <div style="display: flex; gap: 10px; width: 100%; box-sizing: border-box;">
+                    <input type="text" placeholder="MM/AA" maxlength="5" required 
+                        style="width: 60%; min-width: 0; padding: 12px; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; font-size: 16px;">
+
+                    <input type="text" placeholder="CVV" maxlength="3" required 
+                        style="width: 40%; min-width: 0; padding: 12px; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; font-size: 16px;">
+                </div>
+
+                <input type="text" placeholder="CPF do Titular" required 
+                    style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; font-size: 16px;">
+
+                <button type="button" onclick="alert('Conectando à API...')" 
+                    style="margin-top: 10px; width: 100%; padding: 14px; background: #5CAD55; color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 16px;">
+                    Finalizar Assinatura
+                </button>
+
+                <button type="button" onclick="exibirFormasPagamento()" 
+                    style="background: none; border: none; color: #94a3b8; cursor: pointer; padding: 5px; width: 100%;">
+                    Voltar
+                </button>
+            </form>
+        </div>
+    `;
+}
+
+
 function closePaywall() { document.getElementById('paywall').classList.add('hidden'); }
 function zerarSistema() {
     if(confirm("ATENÇÃO: Isso apagará todas as ordens e resetará o contador para 01. Deseja continuar?")) {
@@ -475,5 +550,38 @@ function toggleFiltros() {
             // Recarrega a lista completa
             renderList();
         }
+    }
+}
+
+function exibirFormasPagamento() {
+    const paywall = document.getElementById('paywall');
+    paywall.innerHTML = `
+        <div class="paywall-content" style="max-width: 400px; width: 90%; background: white; padding: 25px; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.2); box-sizing: border-box;">
+            <h2 style="text-align: center; margin-bottom: 20px; font-family: sans-serif;">Pagamento</h2>
+            <p style="text-align: center; color: #64748b; margin-bottom: 20px;">Escolha o método preferido:</p>
+
+            <button onclick="gerarInterfacePix()" 
+                style="width: 100%; margin-bottom: 12px; padding: 14px; background: #5CAD55; color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 16px;">
+                Pagar com PIX
+            </button>
+
+            <button onclick="gerarInterfaceCartao()" 
+                style="width: 100%; margin-bottom: 12px; padding: 14px; background: #5CAD55; color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 16px;">
+                Cartão de Crédito
+            </button>
+
+            <button onclick="showPaywall()" 
+                style="width: 100%; background: none; border: none; color: #94a3b8; cursor: pointer; padding: 5px;">
+                Voltar
+            </button>
+        </div>
+    `;
+}
+
+function checkLimitAndOpen() {
+    if (ordens.length >= LIMITE_FREE) { 
+        showPaywall(); 
+    } else { 
+        showScreen('form'); 
     }
 }
