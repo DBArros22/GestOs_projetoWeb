@@ -8,11 +8,32 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 </head>
+
 <body>
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore-compat.js"></script>
+
+    <script>
+      const firebaseConfig = {
+        apiKey: "AIzaSyADLk602xIybtCNNih7qDjCNGO_dlGGWg",
+        authDomain: "gestos-db.firebaseapp.com",
+        projectId: "gestos-db",
+        storageBucket: "gestos-db.firebasestorage.app",
+        messagingSenderId: "114720965901",
+        appId: "1:114720965901:web:8b58b4a15d77a694785c44",
+        measurementId: "G-DBD7WHL8KY"
+      };
+
+      // Inicializa o Firebase
+      firebase.initializeApp(firebaseConfig);
+      const db = firebase.firestore();
+      
+      // Linha vital para corrigir o erro de 'offline' que impedia o login
+      db.settings({ experimentalForceLongPolling: true });
+    </script>
 
     <section id="screen-auth">
         <div style="background: #f1f5f9; min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px;">
-
             <div class="logo" style="font-size: 2.5rem; margin-bottom: 30px; font-weight: 800; color: #1E293B;">
                 Gest<span style="color: var(--primary);">OS</span>
             </div>
@@ -149,65 +170,57 @@
                 </div>
             </div>
 
-            <div style="background: #f8fafc; border-radius: 25px 25px 0 0; margin-top: -25px; padding: 25px 20px; position: relative; min-height: 80vh;">
-                <div style="padding: 10px 0 20px 0;">
-                    <button onclick="zerarSistema()" style="background: #FF3B30; color: white; border: none; padding: 12px; border-radius: 12px; width: 100%; font-weight: bold; cursor: pointer;">🗑️ Limpar Todas as Ordens (Reset)</button>
-                </div>
-
-                <div style="max-width: 500px; margin: 0 auto; background: white; border-radius: 25px; padding: 30px 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.05);">
-                    <div class="form-container" style="display: flex; flex-direction: column; gap: 20px;">
-                        <div class="card-input">
-                            <label style="font-weight: 700; color: #64748B; font-size: 0.85rem;">Nome da Empresa / Profissional</label>
-                            <input type="text" id="cfg-nome" style="background: #f8fafc; border: 1px solid #e2e8f0; width: 100%; padding: 12px; border-radius: 12px; margin-top: 5px; outline: none;">
-                        </div>
-                        <div class="card-input">
-                            <label style="font-weight: 700; color: #64748B; font-size: 0.85rem;">CNPJ / CPF</label>
-                            <input type="text" id="cfg-cnpj" style="background: #f8fafc; border: 1px solid #e2e8f0; width: 100%; padding: 12px; border-radius: 12px; margin-top: 5px; outline: none;">
-                        </div>
-                        <div class="card-input">
-                            <label style="font-weight: 700; color: #64748B; font-size: 0.85rem;">Sua Profissão / Área de atuação</label>
-                            <div style="position: relative; margin-top: 5px;">
-                                <select id="cfg-nicho" style="background: #f8fafc; border: 1px solid #e2e8f0; width: 100%; padding: 12px 15px; border-radius: 12px; outline: none; appearance: none; -webkit-appearance: none; cursor: pointer; color: #1E293B; font-weight: 500; width: 100%;">
-                                    <option value="tecnico">🛠️ Técnico Geral</option>
-                                    <option value="mecanico">🚗 Mecânico</option>
-                                    <option value="beleza">💇 Manicure / Estética</option>
-                                    <option value="ti">💻 Informática / TI</option>
-                                    <option value="obra">🏗️ Construção/Obra</option>
-                                    <option value="pet">🐾 Pet Shop</option>
-                                    <option value="limpeza">🧹 Limpeza/Diarista</option>
-                                    <option value="fotografia">📸 Fotografia</option>
-                                    <option value="frete">🚚 Frete/Mudança</option>
-                                    <option value="Chaveiro">🔑 Chaveiro</option>
-                                    <option value="Encanador">🔧 Encanador</option>
-                                    <option value="Eletricista">✨ Eletricista</option>
-                                    <option value="Cabelereira">💇 Cabelereira</option>
-                                    <option value="Pedreiro">👷🏻‍♀️ Pedreiro</option>
-                                </select>
-                                <div style="position: absolute; right: 15px; top: 50%; transform: translateY(-50%); pointer-events: none; color: #94A3B8;">▼</div>
-                            </div>
-                        </div>
-                        <div class="card-input">
-                            <label style="font-weight: 700; color: #64748B; font-size: 0.85rem;">Logo da Empresa</label>
-                            <div class="logo-upload-container" style="margin-top: 8px;">
-                                <input type="hidden" id="cfg-logo">
-                                <label for="file-upload" style="background: #f8fafc; border: 2px dashed #cbd5e1; border-radius: 12px; padding: 20px; display: block; text-align: center; cursor: pointer;">
-                                    <span id="upload-text" style="color: #64748B; font-size: 0.9rem;">Anexe aqui a logo da sua empresa</span>
-                                    <div id="logo-preview-container" class="hidden">
-                                        <img id="logo-preview-img" src="" alt="Preview" style="max-height: 80px; margin-bottom: 10px;">
-                                        <span style="display: block; color: var(--primary); font-weight: 600;">Alterar logo</span>
-                                    </div>
-                                </label>
-                                <input id="file-upload" type="file" accept="image/*" style="display: none;" onchange="anexarImagem(this)">
-                            </div>
-                        </div>
-                        <div class="card-input">
-                            <label style="font-weight: 700; color: #64748B; font-size: 0.85rem;">Cor do Tema</label>
-                            <div id="color-palette" style="display: flex; gap: 12px; margin: 10px 0; flex-wrap: wrap;"></div>
-                            <input type="hidden" id="cfg-cor" value="#5CAD55">
-                        </div>
-                        <button class="btn-confirm" onclick="saveConfig()" style="width: 100%;">Salvar Dados</button>
-                        <button class="btn-confirm" onclick="realizarLogout()" style="margin-top: 15px; margin-bottom: 40px; background: var(--primary); filter: brightness(0.9); width: 100%;">Sair do Sistema</button>
+            <div style="max-width: 500px; margin: 0 auto; background: white; border-radius: 25px; padding: 30px 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.05);">
+                <div class="form-container" style="display: flex; flex-direction: column; gap: 20px;">
+                    <div class="card-input">
+                        <label style="font-weight: 700; color: #64748B; font-size: 0.85rem;">Nome da Empresa / Profissional</label>
+                        <input type="text" id="cfg-nome" style="background: #f8fafc; border: 1px solid #e2e8f0; width: 100%; padding: 12px; border-radius: 12px; margin-top: 5px; outline: none;">
                     </div>
+                    <div class="card-input">
+                        <label style="font-weight: 700; color: #64748B; font-size: 0.85rem;">CNPJ / CPF</label>
+                        <input type="text" id="cfg-cnpj" style="background: #f8fafc; border: 1px solid #e2e8f0; width: 100%; padding: 12px; border-radius: 12px; margin-top: 5px; outline: none;">
+                    </div>
+                    <div class="card-input">
+                        <label style="font-weight: 700; color: #64748B; font-size: 0.85rem;">Sua Profissão / Área de atuação</label>
+                        <div style="position: relative; margin-top: 5px;">
+                            <select id="cfg-nicho" style="background: #f8fafc; border: 1px solid #e2e8f0; width: 100%; padding: 12px 15px; border-radius: 12px; outline: none; appearance: none; -webkit-appearance: none; cursor: pointer; color: #1E293B; font-weight: 500; width: 100%;">
+                                <option value="tecnico">🛠️ Técnico Geral</option>
+                                <option value="mecanico">🚗 Mecânico</option>
+                                <option value="beleza">💇 Manicure / Estética</option>
+                                <option value="ti">💻 Informática / TI</option>
+                                <option value="obra">🏗️ Construção/Obra</option>
+                                <option value="pet">🐾 Pet Shop</option>
+                                <option value="limpeza">🧹 Limpeza/Diarista</option>
+                                <option value="fotografia">📸 Fotografia</option>
+                                <option value="frete">🚚 Frete/Mudança</option>
+                                <option value="Chaveiro">🔑 Chaveiro</option>
+                                <option value="Encanador">🔧 Encanador</option>
+                                <option value="Eletricista">✨ Eletricista</option>
+                                <option value="Cabelereira">💇 Cabelereira</option>
+                                <option value="Pedreiro">👷🏻‍♀️ Pedreiro</option>
+                            </select>
+                            <div style="position: absolute; right: 15px; top: 50%; transform: translateY(-50%); pointer-events: none; color: #94A3B8;">▼</div>
+                        </div>
+                    </div>
+                    <div class="card-input">
+                        <label style="font-weight: 700; color: #64748B; font-size: 0.85rem;">Logo da Empresa</label>
+                        <div class="logo-upload-container" style="margin-top: 8px;">
+                            <label for="file-upload" style="background: #f8fafc; border: 2px dashed #cbd5e1; border-radius: 12px; padding: 20px; display: block; text-align: center; cursor: pointer;">
+                                <span id="upload-text" style="color: #64748B; font-size: 0.9rem;">Clique aqui para anexar a logo</span>
+                                <div id="logo-preview-container" class="hidden" style="margin-top: 10px;">
+                                    <img id="logo-preview-img" src="" alt="Preview" style="max-height: 80px;">
+                                </div>
+                            </label>
+                            <input id="file-upload" type="file" accept="image/*" style="display: none;" onchange="handleLogoUpload(event)">
+                        </div>
+                    </div>
+                    <div class="card-input">
+                        <label style="font-weight: 700; color: #64748B; font-size: 0.85rem; display: block; margin-bottom: 8px;">Cor do Tema</label>
+                        <div id="color-palette" style="min-height: 45px; display: flex; gap: 12px; flex-wrap: wrap; align-items: center;"></div>
+                        <input type="hidden" id="cfg-cor" value="#5CAD55">
+                    </div>
+                    <button class="btn-confirm" onclick="saveConfig()" style="width: 100%;">Salvar Dados</button>
+                    <button class="btn-confirm" onclick="realizarLogout()" style="margin-top: 15px; margin-bottom: 40px; background: var(--primary); filter: brightness(0.9); width: 100%;">Sair do Sistema</button>
                 </div>
             </div>
         </section>
