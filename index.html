@@ -262,3 +262,292 @@
     <script src="script.js"></script>
 </body>
 </html>
+<!DOCTYPE html> 
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>GestOS - Minha OS Digital</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+</head>
+
+<body>
+    <section id="screen-auth">
+        <div style="background: #f1f5f9; min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px;">
+
+            <div style="display: flex; flex-direction: column; align-items: center; text-align: center; width: 100%;">
+                <div class="logo" style="font-size: 2.5rem; margin-bottom: 5px; font-weight: 800; color: #1E293B;">
+                    Gest<span style="color: var(--primary);">OS</span>
+                </div>
+
+                <p id="nome-empresa-header" style="font-size: 1rem; color: #64748b; font-weight: 600; margin-bottom: 30px; text-transform: uppercase; letter-spacing: 1px; margin-top: 0;"></p>
+            </div>
+            <div id="auth-login" style="max-width: 400px; width: 100%; background: white; border-radius: 25px; padding: 35px 25px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); text-align: center;">
+                <h2 style="color: #1E293B; margin-bottom: 25px; font-size: 1.5rem; font-weight: 700;">Minha OS digital</h2>
+                <div style="display: flex; flex-direction: column; gap: 15px;">
+                    <input type="email" id="login-email" placeholder="Seu e-mail" style="background: #f8fafc; border: 1px solid #e2e8f0; padding: 14px; border-radius: 12px; outline: none; width: 100%; font-size: 1rem;">
+                    <input type="password" id="login-senha" placeholder="Sua senha" style="background: #f8fafc; border: 1px solid #e2e8f0; padding: 14px; border-radius: 12px; outline: none; width: 100%; font-size: 1rem;">
+                </div>
+                <div style="display: flex; align-items: center; gap: 8px; margin: 20px 0; color: #64748B; font-size: 0.9rem; justify-content: flex-start;">
+                    <input type="checkbox" id="remember-me" style="width: 18px; height: 18px; cursor: pointer; accent-color: var(--primary);">
+                    <label for="remember-me" style="cursor: pointer; font-weight: 500;">Lembrar de mim</label>
+                </div>
+                <button class="btn-confirm" onclick="realizarLogin()" style="width: 100%; padding: 14px; font-size: 1rem; font-weight: 700; background: var(--primary); border: none; border-radius: 12px; color: white; cursor: pointer;">Entrar</button>
+                <div class="auth-footer" style="margin-top: 25px; display: flex; flex-direction: column; gap: 12px; font-size: 0.9rem; color: var(--primary); font-weight: 600;">
+                    <p onclick="toggleAuth('signup')" style="cursor: pointer; margin: 0;">Criar nova conta</p>
+                    <p onclick="toggleAuth('recovery')" style="cursor: pointer; margin: 0; color: #64748B; font-weight: 400;">Esqueci minha senha</p>
+                </div>
+            </div>
+
+            <div id="auth-signup" class="hidden" style="max-width: 400px; width: 100%; background: white; border-radius: 25px; padding: 35px 25px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); text-align: center;">
+                <h2 style="color: #1E293B; margin-bottom: 25px; font-size: 1.5rem; font-weight: 700;">Criar Conta</h2>
+                <div style="display: flex; flex-direction: column; gap: 15px;">
+                    <input type="text" id="reg-nome" placeholder="Nome de Login" style="background: #f8fafc; border: 1px solid #e2e8f0; padding: 14px; border-radius: 12px; outline: none; width: 100%;">
+                    <input type="email" id="reg-email" placeholder="E-mail" style="background: #f8fafc; border: 1px solid #e2e8f0; padding: 14px; border-radius: 12px; outline: none; width: 100%;">
+                    <input type="password" id="reg-senha" placeholder="Senha (Letras e números, mín. 8)" style="background: #f8fafc; border: 1px solid #e2e8f0; padding: 14px; border-radius: 12px; outline: none; width: 100%;">
+                    <input type="password" id="reg-senha-confirma" placeholder="Confirme sua senha" style="background: #f8fafc; border: 1px solid #e2e8f0; padding: 14px; border-radius: 12px; outline: none; width: 100%;">
+                </div>
+                <button class="btn-confirm" onclick="realizarCadastro()" style="width: 100%; margin-top: 20px; padding: 14px; border-radius: 12px; background: var(--primary); color: white; border: none; font-weight: 700;">Cadastrar e Entrar</button>
+                <p onclick="toggleAuth('login')" style="cursor: pointer; margin-top: 15px; color: var(--primary); font-weight: 600; font-size: 0.9rem;">Já tenho conta. Entrar.</p>
+            </div>
+
+            <div id="auth-recovery" class="hidden" style="max-width: 400px; width: 100%; background: white; border-radius: 25px; padding: 35px 25px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); text-align: center;">
+                <h2 style="color: #1E293B; margin-bottom: 15px; font-size: 1.5rem; font-weight: 700;">Recuperar Senha</h2>
+                <p style="color: #64748B; font-size: 0.9rem; margin-bottom: 25px;">Insira seu e-mail para receber as instruções.</p>
+                <div style="display: flex; flex-direction: column; gap: 15px;">
+                    <input type="email" id="recovery-email" placeholder="Seu e-mail cadastrado" style="background: #f8fafc; border: 1px solid #e2e8f0; padding: 14px; border-radius: 12px; outline: none; width: 100%; font-size: 1rem;">
+                </div>
+                <button class="btn-confirm" onclick="realizarRecuperacao()" style="width: 100%; margin-top: 25px; padding: 14px; border-radius: 12px; background: var(--primary); color: white; border: none; font-weight: 700;">Enviar E-mail</button>
+                <p onclick="toggleAuth('login')" style="cursor: pointer; margin-top: 20px; color: #64748B; font-weight: 500; font-size: 0.9rem;">Voltar para o Login</p>
+            </div>
+        </div>
+    </section>
+
+    <header id="main-header" class="hidden">
+        <div class="header-content">
+            <div style="display: flex; align-items: center; justify-content: space-between; width: 100%;">
+                <div class="logo-group" onclick="showScreen('list')" style="cursor:pointer">
+                    <div class="logo">Gest<span>OS</span></div>
+                    <div id="empresa-nome-display" style="font-size: 0.65rem; color: rgba(255,255,255,0.85); font-weight: 600; margin-top: -3px; letter-spacing: 1px;"></div>
+                </div>
+                <div style="display: flex; gap: 10px; align-items: center;">
+                    <button onclick="toggleFiltros()" style="background: rgba(255,255,255,0.2); border: none; border-radius: 8px; width: 40px; height: 40px; color: white; font-size: 1.2rem; cursor: pointer; display: flex; align-items: center; justify-content: center;">🔍</button>
+                    <button class="btn-config" onclick="showScreen('config')">⚙️ Perfil</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="finance-grid">
+            <div class="fin-card"><small>RECEBIDO</small><span id="total-pago">R$ 0,00</span></div>
+            <div class="fin-card"><small>A RECEBER</small><span id="total-pendente" style="color: #FF3B30;">R$ 0,00</span></div>
+        </div>
+
+        <div id="wrapper-filtros" class="hidden" style="margin-top: 15px; display: flex; flex-direction: column; gap: 10px; padding-bottom: 5px;">
+            <input type="text" id="search-input" placeholder="🔍 Buscar por nome ou nº..." oninput="renderList()" style="width: 100%; padding: 12px; border-radius: 12px; border: none; outline: none; font-size: 1rem;">
+            <div style="display: flex; gap: 8px;">
+                <div style="flex: 1.2; display: flex; align-items: center; background: white; border-radius: 12px; padding: 0 10px; height: 45px;">
+                    <span style="font-size: 1rem; margin-right: 5px;">📅</span>
+                    <input type="date" id="filter-date" onchange="renderList()" style="border: none; outline: none; font-family: inherit; font-size: 0.85rem; width: 100%; color: #1e293b; background: transparent;">
+                </div>
+                <select id="filter-status" onchange="renderList()" style="flex: 1; padding: 0 10px; border-radius: 12px; border: none; background: white; font-size: 0.85rem; height: 45px; outline: none;">
+                    <option value="todos">📊 Todos Status</option>
+                    <option value="Pago">✅ Pagas</option>
+                    <option value="Pendente">⏳ Pendentes</option>
+                </select>
+            </div>
+        </div>
+
+        <div id="usage-status" style="text-align: center; margin-top: 10px; font-size: 0.8rem; opacity: 0.8;">
+            OS: <span id="os-count">0</span>/5
+        </div>
+    </header>
+
+    <main>
+        <section id="screen-list" class="hidden">
+            <div id="os-list" class="list-container"></div>
+            <button class="fab-button" onclick="checkLimitAndOpen()"><span>+</span></button>
+        </section>
+
+        <section id="screen-form" class="hidden">
+            <div class="form-header">
+                <button class="btn-back" onclick="showScreen('list')">← Voltar</button>
+                <h2 id="form-title">Nova OS</h2>
+            </div>
+            <form id="os-form" style="padding: 20px 0;">
+                <div class="card-input"><label>Cliente</label><input type="text" id="cliente" required></div>
+                <div class="card-input"><label id="label-item">Item</label><input type="text" id="equipamento" required></div>
+                <div class="card-input"><label id="label-servico">Descrição do Serviço</label><textarea id="defeito" rows="3" required></textarea></div>
+                <div class="card-input"><label>Valor (R$)</label><input type="number" id="valor" step="0.01" required></div>
+                <div class="card-input">
+                    <label>Status Inicial</label>
+                    <select id="pagamento-status" style="width:100%; border:none; background:transparent;">
+                        <option value="Pendente">❌ Pendente</option>
+                        <option value="Pago">✅ Pago</option>
+                    </select>
+                </div>
+                <input type="hidden" id="nicho-selector" value="tecnico">
+                <button type="submit" class="btn-confirm btn-gerar-os">Gerar OS</button>
+            </form>
+        </section>
+
+        <section id="screen-view" class="hidden">
+            <div class="form-header" style="background: var(--primary); color: white; padding: 15px 20px; display: flex; align-items: center; gap: 15px;">
+                <button onclick="showScreen('list')" style="background: rgba(255, 255, 255, 0.2); border: 1px solid white; color: white; padding: 8px 16px; border-radius: 8px; font-weight: 600; cursor: pointer; display: flex; align-items: center; font-family: 'Inter', sans-serif;">← Voltar</button>
+                <h2 style="margin: 0; font-size: 1.1rem; color: white;">Detalhes da OS</h2>
+            </div>
+            <div class="form-container" style="padding-top: 10px;">
+                <div id="view-content"></div>
+                <div id="view-actions" style="display: flex; flex-direction: column; gap: 10px; margin-top: 20px; padding: 0 15px;">
+                    <button id="btn-regerar-pdf" class="btn-confirm" style="width: 100%;">📄 Baixar PDF agora</button>
+                    <button id="btn-compartilhar-zap" class="btn-confirm" style="background:#25D366; width: 100%;">WhatsApp</button>
+                    <div id="area-pagamento-os"></div>
+                </div>
+            </div>
+        </section>
+
+        <section id="screen-config" class="screen hidden">
+            <div style="background: var(--primary); padding: 30px 20px 50px 20px; color: white; position: relative;">
+                <div style="display: flex; align-items: center; justify-content: space-between;">
+                    <button onclick="showScreen('list')" style="background: rgba(255,255,255,0.2); border: none; color: white; padding: 10px 15px; border-radius: 12px; cursor: pointer; font-weight: 600; display: flex; align-items: center; gap: 5px;">← Voltar</button>
+                    <h2 style="margin: 0; font-size: 1.2rem; font-weight: 700;">Meu Negócio</h2>
+                    <div style="width: 75px;"></div>
+                </div>
+            </div>
+
+            <div style="max-width: 500px; margin: 0 auto; background: white; border-radius: 25px; padding: 30px 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.05);">
+                <div class="form-container" style="display: flex; flex-direction: column; gap: 20px;">
+                    <div class="card-input">
+                        <label style="font-weight: 700; color: #64748B; font-size: 0.85rem;">Nome da Empresa / Profissional</label>
+                        <input type="text" id="cfg-nome" style="background: #f8fafc; border: 1px solid #e2e8f0; width: 100%; padding: 12px; border-radius: 12px; margin-top: 5px; outline: none;">
+                    </div>
+                    <div class="card-input">
+                        <label style="font-weight: 700; color: #64748B; font-size: 0.85rem;">CNPJ / CPF</label>
+                        <input type="text" id="cfg-cnpj" style="background: #f8fafc; border: 1px solid #e2e8f0; width: 100%; padding: 12px; border-radius: 12px; margin-top: 5px; outline: none;">
+                    </div>
+                    <div class="card-input">
+                        <label style="font-weight: 700; color: #64748B; font-size: 0.85rem;">Sua Profissão / Área de atuação</label>
+                        <div style="position: relative; margin-top: 5px;">
+                            <select id="cfg-nicho" style="background: #f8fafc; border: 1px solid #e2e8f0; width: 100%; padding: 12px 15px; border-radius: 12px; outline: none; appearance: none; -webkit-appearance: none; cursor: pointer; color: #1E293B; font-weight: 500; width: 100%;">
+                                <option value="tecnico">🛠️ Técnico Geral</option>
+                                <option value="mecanico">🚗 Mecânico</option>
+                                <option value="beleza">💇 Manicure / Estética</option>
+                                <option value="ti">💻 Informática / TI</option>
+                                <option value="obra">🏗️ Construção/Obra</option>
+                                <option value="pet">🐾 Pet Shop</option>
+                                <option value="limpeza">🧹 Limpeza/Diarista</option>
+                                <option value="fotografia">📸 Fotografia</option>
+                                <option value="frete">🚚 Frete/Mudança</option>
+                                <option value="Chaveiro">🔑 Chaveiro</option>
+                                <option value="Encanador">🔧 Encanador</option>
+                                <option value="Eletricista">✨ Eletricista</option>
+                                <option value="Cabelereira">💇 Cabelereira</option>
+                                <option value="Pedreiro">👷🏻‍♀️ Pedreiro</option>
+                            </select>
+                            <div style="position: absolute; right: 15px; top: 50%; transform: translateY(-50%); pointer-events: none; color: #94A3B8;">▼</div>
+                        </div>
+                    </div>
+                    <div class="card-input">
+                        <label style="font-weight: 700; color: #64748B; font-size: 0.85rem;">Logo da Empresa</label>
+                        <div class="logo-upload-container" style="margin-top: 8px;">
+                            <label for="file-upload" style="background: #f8fafc; border: 2px dashed #cbd5e1; border-radius: 12px; padding: 20px; display: block; text-align: center; cursor: pointer;">
+                                <span id="upload-text" style="color: #64748B; font-size: 0.9rem;">Clique aqui para anexar a logo</span>
+                                <div id="logo-preview-container" class="hidden" style="margin-top: 10px;">
+                                    <img id="logo-preview-img" src="" alt="Preview" style="max-height: 80px;">
+                                </div>
+                            </label>
+                            <input id="file-upload" type="file" accept="image/*" style="display: none;" onchange="handleLogoUpload(event)">
+                        </div>
+                    </div>
+                    <div class="card-input">
+                        <label style="font-weight: 700; color: #64748B; font-size: 0.85rem; display: block; margin-bottom: 8px;">Cor do Tema</label>
+                        <div id="color-palette" style="min-height: 45px; display: flex; gap: 12px; flex-wrap: wrap; align-items: center;"></div>
+                        <input type="hidden" id="cfg-cor" value="#5CAD55">
+                    </div>
+                    <button class="btn-confirm" onclick="saveConfig()" style="width: 100%;">Salvar Dados</button>
+                    <button class="btn-confirm" onclick="realizarLogout()" style="margin-top: 15px; margin-bottom: 40px; background: var(--primary); filter: brightness(0.9); width: 100%;">Sair do Sistema</button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <div id="modal-upgrade" class="hidden" style="position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.7); z-index:20000; display:none; align-items:center; justify-content:center; backdrop-filter: blur(5px);">
+        <div style="background:white; width:90%; max-width:400px; padding:25px; border-radius:20px; text-align:center; box-shadow:0 20px 40px rgba(0,0,0,0.3); font-family: sans-serif;">
+
+            <div id="upgrade-step-1">
+                <div style="font-size: 50px; margin-bottom: 15px;">🚀</div>
+                <h2 style="color:#1e293b; margin-bottom:10px; font-size: 1.5rem;">Limite Atingido!</h2>
+                <p style="color:#64748b; margin-bottom:25px; line-height: 1.5;">Você atingiu o limite de 5 OS no plano gratuito. Deseja assinar o <b>Plano PRO</b> para ter acesso ilimitado?</p>
+                <div style="display:flex; gap:10px;">
+                    <button onclick="fecharUpgrade()" style="flex:1; padding:12px; border-radius:10px; border:none; background:#f1f5f9; color:#64748b; font-weight:600; cursor:pointer;">Agora não</button>
+                    <button onclick="irParaPagamento()" style="flex:1; padding:12px; border-radius:10px; border:none; background:#5CAD55; color:white; font-weight:600; cursor:pointer;">Sim, ser PRO!</button>
+                </div>
+            </div>
+
+            <div id="upgrade-step-2" class="hidden">
+                <h3 style="margin-bottom:15px; color:#1e293b;">Escolha o Pagamento</h3>
+                <div style="display:flex; gap:10px; margin-bottom:20px;">
+                    <button onclick="selecionarMetodo('pix')" style="flex:1; padding:10px; border:1px solid #ddd; border-radius:8px; background:white; cursor:pointer; font-weight:600;">PIX</button>
+                    <button onclick="selecionarMetodo('cartao')" style="flex:1; padding:10px; border:1px solid #ddd; border-radius:8px; background:white; cursor:pointer; font-weight:600;">Cartão</button>
+                </div>
+
+                <div id="pagamento-pix" class="hidden">
+                    <div style="background:#f8fafc; padding:15px; border-radius:10px; border: 1px solid #e2e8f0;">
+                        <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=ChavePixExemplo" style="width:150px; margin-bottom:10px; border-radius: 5px;">
+                        <p style="font-size:0.75rem; word-break:break-all; color:#64748b; margin-bottom: 10px;">Chave: <b>suachavepixaqui123456789</b></p>
+                        <button onclick="alert('Chave copiada!')" style="background:none; border:none; color:#5CAD55; font-weight:700; cursor:pointer; text-decoration: underline;">Copiar Código PIX</button>
+                    </div>
+                </div>
+
+                <div id="pagamento-cartao" class="hidden">
+                    <div style="display: flex; flex-direction: column; gap: 8px;">
+                        <input type="text" placeholder="Número do Cartão" style="width:100%; padding:12px; border:1px solid #cbd5e1; border-radius:8px; box-sizing: border-box;">
+                        <input type="text" placeholder="Nome no Cartão" style="width:100%; padding:12px; border:1px solid #cbd5e1; border-radius:8px; box-sizing: border-box;">
+
+                        <div style="display:flex; gap:8px;">
+                            <input type="text" placeholder="MM/AA" style="flex:1; padding:12px; border:1px solid #cbd5e1; border-radius:8px; box-sizing: border-box; width: 0;">
+                            <input type="text" placeholder="CVV" style="flex:1; padding:12px; border:1px solid #cbd5e1; border-radius:8px; box-sizing: border-box; width: 0;">
+                        </div>
+                    </div>
+                    <button onclick="alert('Processando pagamento...')" style="width:100%; margin-top:15px; padding:14px; background:#34C759; color:white; border:none; border-radius:10px; font-weight:700;                                   cursor:pointer;">Finalizar Assinatura</button>
+                </div>
+                </div>
+                <button onclick="fecharUpgrade()" style="margin-top:20px; background:none; border:none; color:#94a3b8; cursor:pointer; font-size:0.85rem;">Voltar depois</button>
+            </div>
+        </div>
+    </div>
+    
+    <div id="paywall" class="modal hidden">...</div>
+    <div id="modal-logout" class="hidden">...</div>
+
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+
+    <script>
+      // Sua chave e IDs (Mantenha os seus dados aqui)
+      const firebaseConfig = {
+        apiKey: "AIzaSyADlK602xIybbtCNNih7qDjCNGO_d1GGWg",
+        authDomain: "gestos-db.firebaseapp.com",
+        projectId: "gestos-db",
+        storageBucket:"gestos-db.firebasestorage.app",
+        messagingSenderId: "114720965901",
+        appId:"1:114720965901:web:fcb9a058c5d68e14785c44",
+        measurementId: "G-2GXCHBSZMN"
+      };
+
+      // Inicializa o app
+        if (!firebase.apps.length) {
+              firebase.initializeApp(firebaseConfig);
+          }
+
+          // CRIA AS VARIÁVEIS ANTES DO SCRIPT.JS
+          var db = firebase.firestore();
+          var auth = firebase.auth();
+
+    </script>
+
+    <script src="script.js"></script>
+</body>
+</html>
